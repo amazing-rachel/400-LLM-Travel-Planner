@@ -1,0 +1,33 @@
+.header {
+  background-color: #d4ffa3;
+  color: #498406;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.nav {
+  background-color: #bdff71; 
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+.navLink {
+  color: #498406;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #ebffd4;
+}
