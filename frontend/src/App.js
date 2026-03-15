@@ -1,24 +1,68 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css'; 
+import './index.css'; 
+import Header from './components/Header';
+import Footer from './components/Footer';
+import LandingPage from './components/LandingPage';
+
+function AppContent() {
+  const themeClass = "landing-page-theme";
+
+  return (
+    <div className={`app-wrapper app-bg-container ${themeClass}`}>
+      <Header />
+
+      <main className="content-area">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+
+          <Route 
+            path="/login" 
+            element={
+              <div className="auth-page">
+                <div className="glass-panel">
+                  <h2>Login</h2>
+                </div>
+              </div>
+            } 
+          />
+          
+          <Route 
+            path="/signup" 
+            element={
+              <div className="auth-page">
+                <div className="glass-panel">
+                  <h2>Sign Up</h2>
+                </div>
+              </div>
+            } 
+          />
+
+          <Route 
+            path="/trip-input" 
+            element={
+              <div className="landing-page">
+                 <div className="glass-panel">
+                  <h2>Plan Your Trip</h2>
+                </div>
+              </div>
+            } 
+          />
+          
+          <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />
+        </Routes>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 

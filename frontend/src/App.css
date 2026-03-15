@@ -1,38 +1,98 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Layout Wrapper */
+.app-wrapper {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page Containers */
+.landing-page {
+  padding: 60px 20px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Welcome Title */
+.landing-page h1 {
+  color: #ffffff; 
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Welcome Description */
+.landing-page p {
+  color: #ffffff;
+  font-size: 1.25rem;
+  max-width: 800px;
+  margin: 0 auto 40px auto;
+  line-height: 1.6;
+}
+
+.auth-page {
+  padding: 40px 20px;
+  text-align: center;
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+/* Button */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 30px;
 }
 
-.App-link {
-  color: #61dafb;
+.main-btn {
+  width: 500px;
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main-btn:active {
+  transform: scale(0.98);
+}
+
+/* Background image */
+.app-bg-container {
+  background-image: linear-gradient(
+      rgba(0, 0, 0, var(--bg-opacity, 0.5)), 
+      rgba(0, 0, 0, var(--bg-opacity, 0.5))
+    ), 
+    url('../public/images/beach-bg.jpg');
+  
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  transition: --bg-opacity 0.3s ease; 
+}
+
+/* Landing page */
+.landing-page-theme {
+  --bg-opacity: 0.4;
+  color: #498406;
+}
+
+.glass-panel {
+  background: #d4ffa3; 
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin: 20px auto;
+  max-width: 900px;
 }
