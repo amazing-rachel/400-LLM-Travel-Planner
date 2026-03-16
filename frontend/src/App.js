@@ -4,8 +4,6 @@ import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
-import SignupPage from './components/SignupPage';
-
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -30,7 +28,14 @@ function AppContent() {
           />
           
           <Route 
-            path="/signup" element={<SignupPage />}
+            path="/signup" 
+            element={
+              <div className="auth-page">
+                <div className="glass-panel">
+                  <h2>Sign Up</h2>
+                </div>
+              </div>
+            } 
           />
 
           <Route 
