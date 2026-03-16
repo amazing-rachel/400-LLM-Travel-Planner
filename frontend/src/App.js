@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
 import SignupPage from './components/SignupPage';
+import LoginPage from './components/LoginPage';
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -17,15 +18,9 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
 
-          <Route 
-            path="/login" 
-            element={
-              <div className="auth-page">
-                <div className="glass-panel">
-                  <h2>Login</h2>
-                </div>
-              </div>
-            } 
+           
+           <Route 
+            path="/login" element={<LoginPage />}
           />
           
            <Route 

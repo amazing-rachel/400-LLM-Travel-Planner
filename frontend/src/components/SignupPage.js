@@ -39,7 +39,7 @@ const SignupPage = () => {
 
     return (
         <div className="signup-page">
-            <div className="signup-fields">
+            <div>
                 <h2 style={{ color: "white" }}>Please Enter Information</h2>
                 <form className="signup-form" /*onSubmit={handleSubmit}*/>
                  <label>First Name:</label>
@@ -67,12 +67,12 @@ const SignupPage = () => {
                         />
                         <br />
                     <label>Password:</label >
-                    <input className="signup-input"
-                    name='password'
-                    type='password'
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                    />
+                        <input className="signup-input"
+                        name='password'
+                        type='password'
+                        required
+                        onChange={(e) => setPassword(e.target.value)}
+                        />
                     <br />
                     <label>Confirm Password:</label >
                     <input className="signup-input"

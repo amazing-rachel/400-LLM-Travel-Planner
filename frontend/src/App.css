@@ -97,7 +97,7 @@
   max-width: 900px;
 }
 
-/* Signup page */
+/* Signup & Login page */
 .signup-page {
   padding: 40px 20px;
   text-align: center;
@@ -139,3 +139,4 @@
   color: white;
   padding: 12px;
 }
+
