@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import { useAuth } from '../context/AuthContext';
 
-function formatUserDisplay(){
+function formatUserDisplay(user){
   if (!user) return 'Guest';
   const name = user.firstName;
  if (user.role === 'admin') return `${name} (admin)`;
@@ -11,7 +11,7 @@ function formatUserDisplay(){
 
 const Header = () => {
   const { user } = useAuth();
-  const displayUser = formatUserDisplay();
+  const displayUser = formatUserDisplay(user);
 
   return (
     <div>
