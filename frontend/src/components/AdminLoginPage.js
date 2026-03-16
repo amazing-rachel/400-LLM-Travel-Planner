@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -67,11 +66,8 @@ return (
         {isLoading ? 'Authenticating...' : 'Login'}
       </button>
     </form>
-    <nav style={{color: 'white', textAlign: 'center', marginTop: '20px'}}>
-      <Link to="/signup">Don't have an account? Sign up.</Link>
-    </nav>
      <nav style={{color: 'white', textAlign: 'center', marginTop: '20px'}}>
-      <Link to="/admin-login">Are you an Admin user? Click here.</Link>
+      <Link to="/login">Are you a non-admin user? Click here.</Link>
     </nav>
     </div>
   );

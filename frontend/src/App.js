@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
+import AdminLoginPage from './components/AdminLoginPage';
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -36,6 +37,10 @@ function AppContent() {
                 </div>
               </div>
             } 
+          />
+
+          <Route 
+            path="/admin-login" element={<AdminLoginPage />}
           />
           
           <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />
