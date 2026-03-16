@@ -4,8 +4,13 @@ CREATE TABLE IF NOT EXISTS accounts (
   email         TEXT NOT NULL UNIQUE,
   first_name    TEXT NOT NULL,
   last_name     TEXT, NOT NULL
-  password_hash TEXT NOT NULL,
+  password      TEXT NOT NULL,
   role          TEXT NOT NULL CHECK (role IN ('user', 'admin')),
   created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at    DATETIME
 );
+
+INSERT INTO accounts (username, email, first_name, last_name, password, role)
+VALUES
+  ('admin1', 'admin1@admin.com',  'John (Admin)', 'M',  'admin1',   'admin'),
+  ('admin1', 'admin1@admin.com',  'Jane (Admin)', 'M',  'admin1',   'admin');
