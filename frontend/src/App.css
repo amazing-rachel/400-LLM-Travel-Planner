@@ -96,3 +96,85 @@
   margin: 20px auto;
   max-width: 900px;
 }
+
+/* Signup & Login page */
+.signup-page {
+  padding: 40px 20px;
+  text-align: center;
+  max-width: 500px;
+  margin: 40px auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+  gap: 15px;      
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.signup-form label {
+  font-weight: bold;
+  color: white;
+}
+
+.signup-input {
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.signup-button {
+  margin-top: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  border-color: #aee300;
+  font-size: 16px;
+  background-color: #aee300;
+  color: white;
+  padding: 12px;
+}
+
+/* User Consent Page */
+.consent-page {
+  padding: 40px 20px;
+  max-width: 500px;
+  margin: 40px auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+  gap: 15px;   
+
+}
+
+.consent-box {
+  border-radius: 5px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.5); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.consent-box h2{
+  text-align:center;
+}
+
+.consent-page button {
+  margin-top: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  border-color: #aee300;
+  font-size: 16px;
+  background-color: #aee300;
+  color: white;
+  padding: 12px;
+}
