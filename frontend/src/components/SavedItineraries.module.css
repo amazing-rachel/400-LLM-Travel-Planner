@@ -1,0 +1,104 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  margin-left: 100px;
+  margin-right: 100px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border-left: 6px solid #5ca508;
+}
+
+.pageTitle {
+  text-align: center;
+  color: #d4ffa3;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  font-weight: 800; 
+}
+
+/* Buttons on Itinerary Card */
+.actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.actions button, .actions select {
+  padding: 20px 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.unsaveBtn { color: #d82828; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* Itinerary Details Styling */
+.editCard {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 1000px;
+  height: 650px;
+}
+
+.editForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px;
+  text-align: left;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.inputGroup label {
+  font-weight: bold;
+  color: #333;
+  font-size: 1rem;
+}
+
+.inputGroup input, 
+.inputGroup select, 
+.inputGroup textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.inputGroup textarea {
+  height: 65px; 
+  resize: vertical;
+}
+
+.modalBtns {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
