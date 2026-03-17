@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './Consent.module.css';
+
 
 const UserConsentPage = () => {
     const [checked, setChecked] = useState(false);
@@ -29,8 +31,8 @@ const UserConsentPage = () => {
     };
 
     return (
-        <div className="consent-page">
-            <div className="consent-box">
+        <div className={styles.consentPage}>
+            <div className={styles.consentBox}>
             <h2>User Consent: GENERATIVE AI USAGE</h2>
             <p>Generative AI usage is required for the system to generate itineraries, and will be used regardless whether or not consent is given. </p>
 
