@@ -1,10 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './App.css'; 
 import './index.css'; 
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
 import TripInputPage from './components/TripInputPage';
+import SignupPage from './components/SignupPage';
+import LoginPage from './components/LoginPage';
+import AdminLoginPage from './components/AdminLoginPage';
+import UserConsentPage from './components/UserConsentPage';
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -17,32 +21,26 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
 
-          <Route 
-            path="/login" 
-            element={
-              <div className="auth-page">
-                <div className="glass-panel">
-                  <h2>Login</h2>
-                </div>
-              </div>
-            } 
+           
+           <Route 
+            path="/login" element={<LoginPage />}
           />
           
-          <Route 
-            path="/signup" 
-            element={
-              <div className="auth-page">
-                <div className="glass-panel">
-                  <h2>Sign Up</h2>
-                </div>
-              </div>
-            } 
+           <Route 
+            path="/signup" element={<SignupPage />}
           />
 
           <Route 
             path="/trip-input" element={<TripInputPage />}
           />
 
+          <Route 
+            path="/admin-login" element={<AdminLoginPage />}
+          />
+
+          <Route 
+            path="/user-consent" element={<UserConsentPage />}
+          />
           
           <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />
         </Routes>
@@ -55,9 +53,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
       <AppContent />
-    </Router>
   );
 }
 
