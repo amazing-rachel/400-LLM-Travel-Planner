@@ -6,35 +6,23 @@ const UserConsentPage = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    setSuccess('');
+        e.preventDefault();
+        setIsLoading(true);
+        setError('');
+        setSuccess('');
 
-    try {
-      const response = await fetch('http://127.0.0.1:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await response.json();
-      if (data.success) {
-        login(data.user);
-        localStorage.setItem('studentId', data.user.id);
-        setSuccess(data.message);
-        // Redirect after 2 seconds
-        setTimeout(() => {
-          navigate('/user-consent');
-        }, 2000);
-      } else {
-        setError(data.message);  
-      }
-    } catch (err) {
-      setError('Failed to connect to the server. Please try again later.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        try {
+        const response = await fetch('http://127.0.0.1:5000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({consent:checked})
+        });
+        const data = await response.json();
+        } catch (error) {
+            console.error("Error sending consent:", error);
+            navigate("/trip-input");
+        }
+    };
 
     return (
         <div className="consent-page">
@@ -48,13 +36,13 @@ const UserConsentPage = () => {
 
             <br />
 
-            <input type="checkbox" id="consent"/> 
+            <input type="checkbox" id="consent" checked={checked} onChange={(e) => setChecked(e.target.checked)}/> 
             <label for="consent"> I agree to the terms above.</label>
 
             <p>* information is not required to generate itineraries.</p>
 
             </div>
-            <button onClick={() => navigate('/trip-input')}>Proceed to itinerary generation.</button>
+            <button onClick={handleSubmit}>Proceed to itinerary generation.</button>
                     
 
         </div>
