@@ -34,8 +34,46 @@ const SignupPage = () => {
         return null;
     };
 
-    const handleSubmit = async (e) => { //frontend api calls
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+        let errors = [];
+        const usernameError = validateUsername(username);
+        const passwordError = validatePassword(password);
+        const emailError = validateEmail(email);
+
+        if (usernameError) errors.push(usernameError);
+        if (passwordError) errors.push(passwordError);
+        if (password !== confirmPassword) errors.push("Passwords do not match.");
+        if (emailError) errors.push(emailError);
+
+        if (errors.length > 0) {
+            setMessage('');
+            setErrors(errors);
+        } else {
+            setErrors([]);
+
+            try {
+                const backendEndpoint = 'http://127.0.0.1:5000/register';
+                const response = await fetch(backendEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password, email }), 
+                });
+                const data = await response.json();
+                if (data.success){
+                    setMessage(data.message);
+                    setTimeout(() => navigate("/login"), 1000);
+                } else {
+                    setErrors([data.message]);
+                }
+            } catch (error) {
+                console.error('Error during form submission:', error);  
+                setErrors(["An error occurred during registration."]);
+            }
+        }
+    };
 
     return (
         <div className="signup-page">
