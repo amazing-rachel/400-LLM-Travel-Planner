@@ -12,7 +12,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [success, setSuccess] = useState('');
 
-   const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
@@ -27,7 +27,6 @@ const LoginForm = () => {
       const data = await response.json();
       if (data.success) {
         login(data.user);
-        localStorage.setItem('studentId', data.user.id);
         setSuccess(data.message);
         // Redirect after 2 seconds
         setTimeout(() => {
