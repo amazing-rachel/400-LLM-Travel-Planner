@@ -19,7 +19,12 @@ const Header = () => {
         <div className={styles.spacing}></div>
         <h1 className={styles.title}>LLM Travel Planner</h1>
 
-      <div className={styles.accountTitle}>User: {displayUser}</div>
+      <div className={styles.userSection}>
+          <div className={styles.accountTitle}>User: {displayUser}</div>
+          {user && (
+            <Link to="/profile" className={styles.profileBtn}>Edit Profile</Link>
+          )}
+      </div>
       </header>
       
       <nav className={styles.nav}>

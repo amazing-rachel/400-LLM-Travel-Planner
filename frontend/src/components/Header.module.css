@@ -43,3 +43,26 @@
   justify-self: end;
   text-align: right;
 }
+
+/* Top Right Button for User */
+.userSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  gap: 5px;
+}
+
+.profileBtn {
+  font-size: 0.8rem;
+  color: #498406;
+  text-decoration: none;
+  border: 1px solid #498406;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.profileBtn:hover {
+  background-color: #498406;
+  color: white;
+}
