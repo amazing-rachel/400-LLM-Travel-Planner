@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './TripInput.module.css'
 
 const TripInputPage = () => {
     const [budget, setBudget] = useState(100);
@@ -45,17 +46,17 @@ const TripInputPage = () => {
     };
 
    return (
-    <div className="trip-input-page">
-        <div className="trip-input-box">
+    <div className={styles.tripInputPage}>
+        <div className={styles.tripInputBox}>
             <h2>Enter your trip details:</h2>
             <label for="start">Start Date:</label>
             <input type="date" id="start" name="start" value={startDate} onChange={(e) => setStartDate(e.target.value)} required></input>
             <label for="end">End Date:</label>
             <input type="date" id="end" name="start" value={endDate} onChange={(e) => setEndDate(e.target.value)} min={startDate} required></input>
-            <div className="budget-container">
+            <div className={styles.budgetContainer}>
                 <p>Budget: ${budget}</p>
                 <input type="range" min="100" max="10000" step="50" value={budget}  onChange={(e) => setBudget(Number(e.target.value))} className="slider" id="budget"/>
-                <div className="manual-budget-container">
+                <div className={styles.manualBudget}>
                     <span className="currency">$</span>
                     <input type="number" min="100" max="10000" step="50" value={budget} className="manual-budget" onChange={(e) => setBudget(Number(e.target.value))}/>
                 </div>
