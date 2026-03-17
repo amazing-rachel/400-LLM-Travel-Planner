@@ -4,6 +4,7 @@ import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import TripInputPage from './components/TripInputPage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import AdminLoginPage from './components/AdminLoginPage';
@@ -30,14 +31,7 @@ function AppContent() {
           />
 
           <Route 
-            path="/trip-input" 
-            element={
-              <div className="landing-page">
-                 <div className="glass-panel">
-                  <h2>Plan Your Trip</h2>
-                </div>
-              </div>
-            } 
+            path="/trip-input" element={<TripInputPage />}
           />
 
           <Route 
