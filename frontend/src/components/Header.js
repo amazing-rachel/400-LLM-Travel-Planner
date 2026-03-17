@@ -10,7 +10,7 @@ function formatUserDisplay(user){
 }
 
 const Header = () => {
-  const { user } = useAuth();
+  const { isLoggedIn, user, logout } = useAuth();
   const displayUser = formatUserDisplay(user);
 
   return (
@@ -25,7 +25,15 @@ const Header = () => {
       <nav className={styles.nav}>
         <Link to="/" className={styles.navLink}>Home</Link>
         <Link to="/trip-input" className={styles.navLink}>Find Itineraries</Link>
-        <Link to="/login" className={styles.navLink}>Login</Link>
+        {isLoggedIn ? (
+          <button onClick={logout} className={styles.navLink}>
+            Logout
+          </button>
+        ) : (
+          <Link to="/login" className={styles.navLink}>
+            Login
+          </Link>
+        )}
       </nav>
     </div>
   );

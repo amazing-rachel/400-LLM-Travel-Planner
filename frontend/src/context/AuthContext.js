@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const ctx = useContext(AuthContext);
   if (ctx === undefined) {
-    // Helpful error instead of a white screen
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return ctx;

@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 const UserConsentPage = () => {
     const [checked, setChecked] = useState(false);
     const navigate = useNavigate();
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [success, setSuccess] = useState('');
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
