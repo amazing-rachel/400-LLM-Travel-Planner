@@ -38,7 +38,7 @@ const UserConsentPage = () => {
 
             <p>Information that you provide, such as Destination, Departure & Return Dates, Preferred Travel Activities*, and Budget* will be used in a prompt to generate trip itineraries. If consent is given, past travel activity preferences will be saved and shown in your User Profile. Past travel activity preferences may be used to generate future trip itineraries.</p>
                 
-            <p>Consent is NOT mandatory and your preferred activities will not be saved nor used in future itinerary generation. Consent can be updated in User Profile at any time.</p>
+            <p>Consent is NOT mandatory. By not agreeing to the terms, any entered preferred activities will not be saved nor used in future itinerary generation. Consent can be updated in User Profile at any time.</p>
 
             <br />
 
