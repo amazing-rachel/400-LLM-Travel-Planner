@@ -2,15 +2,22 @@
   background-color: #d4ffa3;
   color: #498406;
   padding: 15px 30px;
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: center;
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.spacing {
+  flex: 1;
 }
 
 .title {
+  text-align: center;
   margin: 0;
   font-size: 3rem;
   font-weight: 900;
+  white-space: nowrap;
+  justify-self: center;
 }
 
 .nav {
@@ -30,4 +37,9 @@
 
 .navLink:hover {
   color: #ebffd4;
+}
+
+.accountTitle {
+  justify-self: end;
+  text-align: right;
 }
