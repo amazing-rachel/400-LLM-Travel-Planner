@@ -11,6 +11,7 @@ import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import AdminLoginPage from './components/AdminLoginPage';
 import UserConsentPage from './components/UserConsentPage';
+import UserProfile from './components/UserProfile';
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -33,7 +34,8 @@ function AppContent() {
           />
 
           <Route 
-            path="/trip-input" element={<TripInputPage />}/>
+            path="/trip-input" element={<TripInputPage />}
+            />
             
           <Route
            path="/results" element={<ItineraryResult />}
@@ -47,7 +49,12 @@ function AppContent() {
             path="/user-consent" element={<UserConsentPage />}
           />
 
-          <Route path="/saved-itineraries" element={<SavedItineraries />} />
+          <Route 
+            path="/profile" element={<UserProfile />}
+          />
+          
+          <Route path="/saved-itineraries" element={<SavedItineraries />} 
+          />
 
           
           <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />
