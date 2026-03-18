@@ -21,6 +21,7 @@ const Header = () => {
       {/* Dropdown for User Profile and Saved */}
       <div className={styles.userSection}>
           <div className={styles.accountTitle}>User: {displayUser}</div>
+          {user && (
             <div className={styles.dropdown}>
               <button className={styles.profileButton}>Profile ▾</button>
 
@@ -33,6 +34,7 @@ const Header = () => {
                 </Link>
               </div>
             </div>
+          )}
           </div>
       </header>
       
