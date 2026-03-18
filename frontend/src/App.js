@@ -4,6 +4,9 @@ import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import SavedItineraries from './components/SavedItineraries';
+import ItineraryResult from './components/ItineraryResult';
+import TripInputPage from './components/TripInputPage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import AdminLoginPage from './components/AdminLoginPage';
@@ -21,7 +24,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
 
-           
+
            <Route 
             path="/login" element={<LoginPage />}
           />
@@ -31,14 +34,11 @@ function AppContent() {
           />
 
           <Route 
-            path="/trip-input" 
-            element={
-              <div className="landing-page">
-                 <div className="glass-panel">
-                  <h2>Plan Your Trip</h2>
-                </div>
-              </div>
-            } 
+            path="/trip-input" element={<TripInputPage />}
+            />
+            
+          <Route
+           path="/results" element={<ItineraryResult />}
           />
 
           <Route 
@@ -52,6 +52,10 @@ function AppContent() {
           <Route 
             path="/profile" element={<UserProfile />}
           />
+          
+          <Route path="/saved-itineraries" element={<SavedItineraries />} 
+          />
+
           
           <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />
         </Routes>

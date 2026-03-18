@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import styles from './Login&Signup.module.css';
 
 
 const LoginForm = () => {
@@ -43,10 +44,10 @@ const LoginForm = () => {
   };
 
 return (
-    <div className="signup-page">
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <div className={styles.signupPage}>
+    <form className={styles.signupForm} onSubmit={handleSubmit}>
        <label>Username:</label>
-          <input className="signup-input"
+          <input className={styles.signupInput}
           name='username'
           type='text'
           required
@@ -54,7 +55,7 @@ return (
           />
           <br />
       <label>Password:</label >
-          <input className="signup-input"
+          <input className={styles.signupInput}
           name='password'
           type='password'
           required
@@ -89,7 +90,7 @@ return (
       <button 
         type="submit" 
         disabled={isLoading}
-        className="signup-button"
+        className={styles.signupButton}
       >
         {isLoading ? 'Authenticating...' : 'Login'}
       </button>

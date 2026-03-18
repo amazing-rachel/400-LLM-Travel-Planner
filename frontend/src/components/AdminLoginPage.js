@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import styles from './Login&Signup.module.css';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -11,14 +12,41 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [success, setSuccess] = useState('');
 
-  const handleSubmit = async (e) => { // login api logic 
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await response.json();
+      if (data.success) {
+        login(data.user);
+        setSuccess(data.message);
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          navigate('/user-consent');
+        }, 2000);
+      } else {
+        setError(data.message);  
+      }
+    } catch (err) {
+      setError('Failed to connect to the server. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
 return (
-    <div className="signup-page">
-    <form className="signup-form" /*onSubmit={handleSubmit}*/>
+    <div className={styles.signupPage}>
+    <form className={styles.signupForm} onSubmit={handleSubmit}>
        <label>Username:</label>
-          <input className="signup-input"
+          <input className={styles.signupInput}
           name='username'
           type='text'
           required
@@ -26,7 +54,7 @@ return (
           />
           <br />
       <label>Password:</label >
-          <input className="signup-input"
+          <input className={styles.signupInput}
           name='password'
           type='password'
           required
@@ -61,7 +89,7 @@ return (
       <button 
         type="submit" 
         disabled={isLoading}
-        className="signup-button"
+        className={styles.signupButton}
       >
         {isLoading ? 'Authenticating...' : 'Login'}
       </button>

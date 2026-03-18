@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import styles from './Login&Signup.module.css';
 
 const SignupPage = () => {
     const [username, setUsername] = useState('');
@@ -76,12 +77,12 @@ const SignupPage = () => {
     };
 
     return (
-        <div className="signup-page">
+        <div className={styles.signupPage}>
             <div>
                 <h2 style={{ color: "white" }}>Please Enter Information</h2>
-                <form className="signup-form" /*onSubmit={handleSubmit}*/>
+                <form className={styles.signupForm} /*onSubmit={handleSubmit}*/>
                  <label>First Name:</label>
-                        <input className="signup-input"
+                        <input className={styles.signupInput}
                         name='username'
                         type='text'
                         required
@@ -89,7 +90,7 @@ const SignupPage = () => {
                         />
                         <br />
                    <label>Last Name:</label>
-                        <input className="signup-input"
+                        <input className={styles.signupInput}
                         name='username'
                         type='text'
                         required
@@ -97,7 +98,7 @@ const SignupPage = () => {
                         />
                         <br />      
                     <label>Username:</label>
-                        <input className="signup-input"
+                        <input className={styles.signupInput}
                         name='username'
                         type='text'
                         required
@@ -105,7 +106,7 @@ const SignupPage = () => {
                         />
                         <br />
                     <label>Password:</label >
-                        <input className="signup-input"
+                        <input className={styles.signupInput}
                         name='password'
                         type='password'
                         required
@@ -113,7 +114,7 @@ const SignupPage = () => {
                         />
                     <br />
                     <label>Confirm Password:</label >
-                    <input className="signup-input"
+                    <input className={styles.signupInput}
                     name='password'
                     type='password'
                     required
@@ -121,7 +122,7 @@ const SignupPage = () => {
                     />
                     <br />
                     <label>Email:</label >
-                    <input className="signup-input"
+                    <input className={styles.signupInput}
                     name='email'
                     type='text'
                     required
@@ -129,7 +130,7 @@ const SignupPage = () => {
                     />
                     <br />
                     <button 
-                        className="signup-button"
+                        className={styles.signupButton}
                         >Sign Up</button>
                 </form>
             </div>
