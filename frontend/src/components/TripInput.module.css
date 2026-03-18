@@ -1,0 +1,57 @@
+/* Trip Input Page */
+.tripInputPage {
+  padding: 40px 20px;
+  max-width: 500px;
+  margin: 40px auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+  gap: 15px;   
+
+}
+
+.tripInputBox {
+  border-radius: 5px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.tripInputBox h2{
+  text-align:center;
+}
+
+.budgetContainer {
+  display: flex;
+  align-items: center;   
+  flex-direction: column;
+}
+
+.slider {
+  width: 100%;
+  height: 8px;
+}
+
+.slider::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+}
+
+.manualBudget {
+  margin: 20px;
+}
+
+.tripInputPage button {
+  margin-top: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  border-color: #aee300;
+  font-size: 16px;
+  background-color: #aee300;
+  color: white;
+  padding: 12px;
+}
