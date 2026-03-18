@@ -4,6 +4,7 @@ import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import AdminDashboard from './components/AdminDashboard';
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -48,6 +49,8 @@ function AppContent() {
               </div>
             } 
           />
+
+          <Route path="/admin" element={<AdminDashboard />} />
           
           <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />
         </Routes>
