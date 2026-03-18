@@ -32,7 +32,7 @@ function AppContent() {
           />
 
           <Route 
-            path="/trip-input" element={<TripInputPage />}
+            path="/trip-input" element={<TripInputPage />}/>
             
           <Route
            path="/results" element={<ItineraryResult />}
