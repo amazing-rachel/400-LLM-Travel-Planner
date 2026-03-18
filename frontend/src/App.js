@@ -4,6 +4,7 @@ import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import AdminDashboard from './components/AdminDashboard';
 import SavedItineraries from './components/SavedItineraries';
 import ItineraryResult from './components/ItineraryResult';
 import TripInputPage from './components/TripInputPage';
@@ -50,10 +51,15 @@ function AppContent() {
           />
 
           <Route 
+            path="/admin" element={<AdminDashboard />} 
+          />
+          
+          <Route 
             path="/profile" element={<UserProfile />}
           />
           
-          <Route path="/saved-itineraries" element={<SavedItineraries />} 
+          <Route 
+            path="/saved-itineraries" element={<SavedItineraries />} 
           />
 
           
