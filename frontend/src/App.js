@@ -4,6 +4,7 @@ import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import ItineraryResult from './components/ItineraryResult';
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -25,8 +26,12 @@ function AppContent() {
                 </div>
               </div>
             } 
+
           />
-          
+          <Route
+           path="/results" element={<ItineraryResult />}
+          />
+
           <Route 
             path="/signup" 
             element={
