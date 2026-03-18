@@ -4,6 +4,7 @@ import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import ItineraryResult from './components/ItineraryResult';
 import TripInputPage from './components/TripInputPage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
@@ -21,7 +22,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
 
-           
+
            <Route 
             path="/login" element={<LoginPage />}
           />
@@ -32,6 +33,9 @@ function AppContent() {
 
           <Route 
             path="/trip-input" element={<TripInputPage />}
+            
+          <Route
+           path="/results" element={<ItineraryResult />}
           />
 
           <Route 
