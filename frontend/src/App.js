@@ -50,7 +50,7 @@ function AppContent() {
           />
 
           <Route 
-            path="/user-profile" element={<UserProfile />}
+            path="/profile" element={<UserProfile />}
           />
           
           <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />

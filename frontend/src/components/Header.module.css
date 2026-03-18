@@ -44,7 +44,7 @@
   text-align: right;
 }
 
-/* Top Right Button for User */
+/* Dropdown for User Profile & Saved */
 .userSection {
   display: flex;
   flex-direction: column;
@@ -52,17 +52,55 @@
   gap: 5px;
 }
 
-.profileBtn {
+.profileButton {
   font-size: 0.8rem;
   color: #498406;
+  background-color: #d4ffa3;
   text-decoration: none;
   border: 1px solid #498406;
   padding: 4px 8px;
   border-radius: 4px;
   transition: all 0.2s;
+  font-family: inherit;
+
 }
 
-.profileBtn:hover {
+.profileButton:hover {
   background-color: #498406;
   color: white;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  background-color:#bdff71;
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #d4ffa3;
+  min-width: 180px;
+  border: 1px solid #498406;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.dropdownItem {
+  display: block;
+  padding: 10px;
+  color: #498406;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.dropdownItem:hover {
+  background-color: #498406;
+  color: white;
+}
+
+.dropdown:hover .dropdownContent {
+  display: block;
 }
