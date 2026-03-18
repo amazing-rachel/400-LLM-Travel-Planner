@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   first_name    TEXT NOT NULL,
   last_name     TEXT NOT NULL
   password      TEXT NOT NULL,
+  saved_activities  TEXT,
   role          TEXT NOT NULL CHECK (role IN ('user', 'admin')),
   consent-given BOOLEAN NOT NULL DEFAULT 0,
   created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -13,5 +14,11 @@ CREATE TABLE IF NOT EXISTS accounts (
 
 INSERT INTO accounts (username, email, first_name, last_name, password, role)
 VALUES
-  ('admin1', 'admin1@admin.com',  'John (Admin)', 'M',  'admin1',   'admin'),
-  ('admin1', 'admin1@admin.com',  'Jane (Admin)', 'M',  'admin1',   'admin');
+  ('admin1', 'admin1@admin.com',  'John (Admin)', '',  'admin1',   'admin'),
+  ('admin1', 'admin2@admin.com',  'Jane (Admin)', '',  'admin2',   'admin');
+
+CREATE TABLE IF NOT EXISTS saved_itineraries (
+  itinerary_id INTEGER PRIMARY KEY,
+  parent_id    INTEGER,
+  
+);
