@@ -9,6 +9,7 @@ import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import AdminLoginPage from './components/AdminLoginPage';
 import UserConsentPage from './components/UserConsentPage';
+import SavedItineraries from './components/SavedItineraries';
 
 function AppContent() {
   const themeClass = "landing-page-theme";
@@ -41,6 +42,9 @@ function AppContent() {
           <Route 
             path="/user-consent" element={<UserConsentPage />}
           />
+
+          <Route path="/saved-itineraries" element={<SavedItineraries />} />
+
           
           <Route path="*" element={<div style={{textAlign: 'center', padding: '50px'}}>Page Not Found</div>} />
         </Routes>
