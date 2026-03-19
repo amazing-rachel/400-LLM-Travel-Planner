@@ -1,0 +1,80 @@
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+const LoginForm = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState('');
+
+  const handleSubmit = async (e) => { // login api logic 
+  }
+
+return (
+    <div className="signup-page">
+    <form className="signup-form" /*onSubmit={handleSubmit}*/>
+       <label>Username:</label>
+          <input className="signup-input"
+          name='username'
+          type='text'
+          required
+          onChange={(e) => setUsername(e.target.value)}
+          />
+          <br />
+      <label>Password:</label >
+          <input className="signup-input"
+          name='password'
+          type='password'
+          required
+          onChange={(e) => setPassword(e.target.value)}
+          />
+      <br />
+
+      {error && (
+        <div style={{ 
+          color: '#D32F2F', 
+          backgroundColor: '#FFEBEE', 
+          padding: '10px', 
+          borderRadius: '4px',
+          marginBottom: '15px'
+        }}>
+          {error}
+        </div>
+      )}
+
+      {success && (
+        <div style={{
+          color: '#2E7D32',
+          backgroundColor: '#E8F5E9',
+          padding: '10px',
+          borderRadius: '4px',
+          marginBottom: '15px'
+        }}>
+          {success}
+        </div>
+      )}
+
+      <button 
+        type="submit" 
+        disabled={isLoading}
+        className="signup-button"
+      >
+        {isLoading ? 'Authenticating...' : 'Login'}
+      </button>
+    </form>
+     <nav style={{color: 'white', textAlign: 'center', marginTop: '20px'}}>
+      <Link to="/login">Are you a non-admin user? Click here.</Link>
+    </nav>
+    </div>
+  );
+};
+
+export default LoginForm;
+
+
+
+
