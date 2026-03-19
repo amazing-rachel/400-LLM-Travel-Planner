@@ -39,7 +39,7 @@ function AppContent() {
             />
             
           <Route
-           path="/results" element={<ItineraryResult />}
+           path="/itinerary-results" element={<ItineraryResult />}
           />
 
           <Route 
