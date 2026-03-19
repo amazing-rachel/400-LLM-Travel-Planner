@@ -18,8 +18,24 @@ const Header = () => {
       <header className={styles.header}>
         <div className={styles.spacing}></div>
         <h1 className={styles.title}>LLM Travel Planner</h1>
+      {/* Dropdown for User Profile and Saved */}
+      <div className={styles.userSection}>
+          <div className={styles.accountTitle}>User: {displayUser}</div>
+          {user && (
+            <div className={styles.dropdown}>
+              <button className={styles.profileButton}>Profile ▾</button>
 
-      <div className={styles.accountTitle}>User: {displayUser}</div>
+              <div className={styles.dropdownContent}>
+                <Link to="/profile" className={styles.dropdownItem}>
+                  Edit Profile
+                </Link>
+                <Link to="/saved-itineraries" className={styles.dropdownItem}>
+                  View Saved Itineraries
+                </Link>
+              </div>
+            </div>
+          )}
+          </div>
       </header>
       
       <nav className={styles.nav}>
