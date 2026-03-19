@@ -127,3 +127,28 @@
   background-color: #d82828;
   color: white;
 }
+
+/* Data Source Section */
+.dataSourceSection {
+  margin-top: 40px;
+}
+
+.dataSourceCard {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sourceName {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.sourceUrl {
+  font-size: 14px;
+  color: #666;
+  word-break: break-all;
+}
