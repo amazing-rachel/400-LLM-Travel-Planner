@@ -102,7 +102,24 @@ const AdminDashboard = () => {
           </table>
         </div>
       </section>
+
+    {/* Source of Cities Data*/}
+       <section className={styles.dataSourceSection}>
+        <div>
+          <h1 className={styles.pageSubtitle}>Data Source for Cities</h1>
+          <p></p>
+        <div className={styles.dataSourceCard}>
+          {/* CHANGE to have variable that pulls data source from DB */}
+          <p className={styles.sourceName}>Nominatim OpenStreetMap API</p> 
+          <p className={styles.sourceUrl}>
+            https://nominatim.openstreetmap.org/search
+          </p>
+        </div>
+        </div>
+        </section>
+
     </div>
+
   );
 };
 
