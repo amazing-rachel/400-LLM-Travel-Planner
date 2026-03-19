@@ -12,6 +12,7 @@ import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import AdminLoginPage from './components/AdminLoginPage';
 import UserConsentPage from './components/UserConsentPage';
+import SavedItineraries from './components/SavedItineraries';
 import UserProfile from './components/UserProfile';
 
 function AppContent() {
@@ -50,6 +51,7 @@ function AppContent() {
             path="/user-consent" element={<UserConsentPage />}
           />
 
+          <Route path="/saved-itineraries" element={<SavedItineraries />} />
           <Route 
             path="/admin" element={<AdminDashboard />} 
           />
