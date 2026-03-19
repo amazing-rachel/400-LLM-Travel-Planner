@@ -152,3 +152,12 @@
   color: #666;
   word-break: break-all;
 }
+
+.editSaveButton {
+  background-color: #498406;
+  color: white;
+  border-radius: 5px;
+  border-color: #498406; 
+  font-weight: bold;
+
+}

@@ -12,7 +12,6 @@ import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import AdminLoginPage from './components/AdminLoginPage';
 import UserConsentPage from './components/UserConsentPage';
-import SavedItineraries from './components/SavedItineraries';
 import UserProfile from './components/UserProfile';
 
 function AppContent() {

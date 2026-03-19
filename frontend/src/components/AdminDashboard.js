@@ -27,6 +27,15 @@ const AdminDashboard = () => {
     }
   };
 
+  const [isEditing, setIsEditing] = useState(false);
+
+  {/* CHANGE to variables for backend/db */}
+  const [sourceName, setSourceName] = useState("Nominatim OpenStreetMap API");
+  const [sourceUrl, setSourceUrl] = useState(
+  "https://nominatim.openstreetmap.org/search"
+  ); 
+
+
   return (
     <div className={styles.dashboardContainer}>
       <div className={styles.header}>
@@ -110,10 +119,35 @@ const AdminDashboard = () => {
           <p></p>
         <div className={styles.dataSourceCard}>
           {/* CHANGE to have variable that pulls data source from DB */}
-          <p className={styles.sourceName}>Nominatim OpenStreetMap API</p> 
-          <p className={styles.sourceUrl}>
-            https://nominatim.openstreetmap.org/search
-          </p>
+           {isEditing ? (
+            <input
+              type="text"
+              value={sourceName}
+              onChange={(e) => setSourceName(e.target.value)}
+              className={styles.sourceInput}
+              placeholder="Enter source name"
+            />
+          ) : (
+            <p className={styles.sourceName}>{sourceName}</p>
+          )}
+
+            {isEditing ? (
+            <input
+              type="text"
+              value={sourceUrl}
+              onChange={(e) => setSourceUrl(e.target.value)}
+              className={styles.sourceInput}
+            />
+          ) : (
+            <p className={styles.sourceUrl}>{sourceUrl}</p>
+          )}
+
+          <button
+            className={styles.editSaveButton}
+            onClick={() => setIsEditing(!isEditing)}
+          >
+            {isEditing ? "Save" : "Edit"}
+          </button>
         </div>
         </div>
         </section>
