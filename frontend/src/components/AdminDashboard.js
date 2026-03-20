@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './AdminDashboard.module.css';
 
 const AdminDashboard = () => {
   // System Metrics
   // Backend stuff goes here, temporarily using mock data 
-  const [metrics] = useState({
-    serverThroughput: "150 req/sec",
-    activeConcurrentRequests: 100,
-    memoryLatency: "45 ms",
-    memoryOverhead: "1.2 GB",
-    llmUsage: "95%"
-  });
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const [metrics, setMetrics] = useState(null);
+const [error, setError] = useState(null);
+
+useEffect(() => {
+  fetch(`${BACKEND_URL}/admin/metrics`)
+    .then(res => res.json())
+    .then(data => setMetrics(data))
+    .catch(() => setError("Failed to load system metrics"));
+}, []);
 
   // Mock User Data
   // Backend stuff goes here, temporarily using mock data 
@@ -30,14 +33,22 @@ const AdminDashboard = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   {/* CHANGE to variables for backend/db */}
-  const [sourceName, setSourceName] = useState("Nominatim OpenStreetMap API");
-  const [sourceUrl, setSourceUrl] = useState(
-  "https://nominatim.openstreetmap.org/search"
-  ); 
+ const [sourceName, setSourceName] = useState(
+  process.env.REACT_APP_SOURCE_NAME || "Nominatim OpenStreetMap API"
+);
+
+const [sourceUrl, setSourceUrl] = useState(
+  process.env.REACT_APP_SOURCE_URL || "https://nominatim.openstreetmap.org/search"
+);
 
 
   return (
     <div className={styles.dashboardContainer}>
+      {error && (
+  <div style={{ color: 'red', textAlign: 'center', marginBottom: '20px' }}>
+    {error}
+  </div>
+)}
       <div className={styles.header}>
         <h1 className={styles.pageTitle}>Admin Dashboard</h1>
       </div>
@@ -48,23 +59,33 @@ const AdminDashboard = () => {
         <div className={styles.metricsGrid}>
           <div className={styles.metricCard}>
             <h3>Server Throughput</h3>
-            <p className={styles.metricValue}>{metrics.serverThroughput}</p>
+            <p className={styles.metricValue}>
+  {metrics ? metrics.serverThroughput : "Loading..."}
+</p>
           </div>
           <div className={styles.metricCard}>
             <h3>Concurrent Requests</h3>
-            <p className={styles.metricValue}>{metrics.activeConcurrentRequests}</p>
+            <p className={styles.metricValue}>
+  {metrics ? metrics.activeConcurrentRequests : "Loading..."}
+</p>
           </div>
           <div className={styles.metricCard}>
             <h3>Average Memory Latency</h3>
-            <p className={styles.metricValue}>{metrics.memoryLatency}</p>
+            <p className={styles.metricValue}>
+  {metrics ? metrics.memoryLatency : "Loading..."}
+</p>
           </div>
           <div className={styles.metricCard}>
             <h3>Memory Overhead</h3>
-            <p className={styles.metricValue}>{metrics.memoryOverhead}</p>
+            <p className={styles.metricValue}>
+  {metrics ? metrics.memoryOverhead : "Loading..."}
+</p>
           </div>
           <div className={styles.metricCard}>
             <h3>LLM API Uptime</h3>
-            <p className={styles.metricValue}>{metrics.llmUsage}</p>
+            <p className={styles.metricValue}>
+  {metrics ? metrics.llmUsage : "Loading..."}
+</p>
           </div>
         </div>
       </section>

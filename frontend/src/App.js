@@ -1,3 +1,4 @@
+import { useAuth } from './context/AuthContext';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'; 
 import './index.css'; 
@@ -15,6 +16,7 @@ import UserConsentPage from './components/UserConsentPage';
 import UserProfile from './components/UserProfile';
 
 function AppContent() {
+  const { user } = useAuth();
   const themeClass = "landing-page-theme";
 
   return (
@@ -51,9 +53,14 @@ function AppContent() {
           />
 
           <Route path="/saved-itineraries" element={<SavedItineraries />} />
-          <Route 
-            path="/admin" element={<AdminDashboard />} 
-          />
+          <Route
+  path="/admin"
+  element={
+    user && user.role === "admin"
+      ? <AdminDashboard />
+      : <div style={{ textAlign: 'center', padding: '50px' }}>Access Denied</div>
+  }
+/>
           
           <Route 
             path="/profile" element={<UserProfile />}

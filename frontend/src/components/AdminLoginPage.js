@@ -30,7 +30,7 @@ const LoginForm = () => {
         setSuccess(data.message);
         // Redirect after 2 seconds
         setTimeout(() => {
-          navigate('/user-consent');
+          navigate('/admin');
         }, 2000);
       } else {
         setError(data.message);  
