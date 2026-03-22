@@ -169,18 +169,93 @@ def generate_and_save_itinerary(payload):
         payload.get("end_date")
     )
     estimated_price = payload.get("budget", payload.get("estimated_price", 0))
-    activities = payload.get("activities", "")
+    new_activities = payload.get("activities", "")
 
     date_error = validate_trip_dates(start_date, end_date)
     if date_error:
         return error_response(date_error, 400)
 
+
+    # Merge Activities (History + new)
+    combined_activities = []
+
+    if user_id:
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT saved_activities, consent_given FROM accounts WHERE id = ?",
+                (user_id,)
+            )
+            row = cursor.fetchone()
+
+            if row:
+                consent = bool(row["consent_given"])
+                try:
+                    saved_activities = json.loads(row["saved_activities"] or "[]")
+                    if not isinstance(saved_activities, list):
+                        saved_activities = []
+                except Exception:
+                    saved_activities = []
+
+                # Clear history if consent removed
+                if not consent:
+                    cursor.execute(
+                        "UPDATE accounts SET saved_activities = json('[]'), updated_at = ? WHERE id = ?",
+                        (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), user_id)
+                    )
+                    conn.commit()
+                    # Only use new activities
+                    if isinstance(new_activities, str):
+                        combined_activities = [a.strip() for a in new_activities.split(",") if a.strip()]
+                    elif isinstance(new_activities, list):
+                        combined_activities = new_activities
+                    else:
+                        combined_activities = []
+                else:
+                    # Merge new + saved activities
+                    if isinstance(new_activities, str):
+                        new_list = [a.strip() for a in new_activities.split(",") if a.strip()]
+                    elif isinstance(new_activities, list):
+                        new_list = new_activities
+                    else:
+                        new_list = []
+
+                    combined_list = list(dict.fromkeys(saved_activities + new_list))
+                    combined_activities = combined_list
+
+                    # Save merged list back to DB
+                    cursor.execute(
+                        "UPDATE accounts SET saved_activities = ?, updated_at = ? WHERE id = ?",
+                        (json.dumps(combined_list), datetime.now().strftime("%Y-%m-%d %H:%M:%S"), user_id)
+                    )
+                    conn.commit()
+            else:
+                # No row found, just use new activities
+                if isinstance(new_activities, str):
+                    combined_activities = [a.strip() for a in new_activities.split(",") if a.strip()]
+                elif isinstance(new_activities, list):
+                    combined_activities = new_activities
+                else:
+                    combined_activities = []
+        finally:
+            conn.close()
+    else:
+        # Guest user → only use new activities
+        if isinstance(new_activities, str):
+            combined_activities = [a.strip() for a in new_activities.split(",") if a.strip()]
+        elif isinstance(new_activities, list):
+            combined_activities = new_activities
+        else:
+            combined_activities = []
+
+    # Generate itinerary using combined activities
     itinerary = build_itinerary(
         destination=destination,
         start_date=start_date,
         end_date=end_date,
         estimated_price=estimated_price,
-        activities=activities,
+        activities=combined_activities,
     )
 
     if is_guest:
@@ -193,10 +268,10 @@ def generate_and_save_itinerary(payload):
     if not user_id:
         return error_response("User ID is required.", 400)
 
+    # Save itinerary
     conn = get_connection()
     try:
         cursor = conn.cursor()
-
         cursor.execute(
             """
             INSERT INTO saved_itineraries (
@@ -231,7 +306,6 @@ def generate_and_save_itinerary(payload):
         return error_response("An error occurred while generating itinerary.", 500)
     finally:
         conn.close()
-
 
 def get_saved_itineraries(user_id):
     conn = get_connection()
