@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './TripInput.module.css';
-import Select from "react-select";
+import Select from 'react-select';
 
 const TripInputPage = () => {
+    const [destination, setDestination] = useState('');
     const [budget, setBudget] = useState(100);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [activities, setActivities] = useState('');
-    const [destination, setDestination] = useState('');
     const [cityResults, setCityResults] = useState([]);
-
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
     const [success, setSuccess] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (destination.length < 2) {
@@ -23,24 +23,30 @@ const TripInputPage = () => {
         }
 
         const timeout = setTimeout(() => {
-            fetch(`https://nominatim.openstreetmap.org/search?q=${destination}&format=json&addressdetails=1&limit=10`)
-                .then(res => res.json())
-                .then(data => {
+            fetch(
+                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+                    destination
+                )}&format=json&addressdetails=1&limit=10`
+            )
+                .then((res) => res.json())
+                .then((data) => {
                     const allowedTypes = [
-                        "city",
-                        "town",
-                        "village",
-                        "hamlet",
-                        "suburb",
-                        "municipality",
-                        "administrative",
-                        "county"
+                        'city',
+                        'town',
+                        'village',
+                        'hamlet',
+                        'suburb',
+                        'municipality',
+                        'administrative',
+                        'county',
                     ];
 
-                    const filtered = data.filter(item => allowedTypes.includes(item.type));
+                    const filtered = data.filter((item) =>
+                        allowedTypes.includes(item.type)
+                    );
                     setCityResults(filtered);
                 })
-                .catch(err => console.error(err));
+                .catch((err) => console.error(err));
         }, 300);
 
         return () => clearTimeout(timeout);
@@ -48,57 +54,70 @@ const TripInputPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
         setError('');
         setSuccess('');
-    
+
         if (!destination) {
-            setError("Destination is required.");
-            setIsLoading(false);
+            setError('Destination is required.');
             return;
         }
-    
+
         if (!startDate || !endDate) {
-            setError("Start and End dates are required.");
-            setIsLoading(false);
+            setError('Start and End dates are required.');
             return;
         }
-    
+
+        setIsLoading(true);
+
         try {
             const user = JSON.parse(localStorage.getItem('user'));
             const userId = user?.id;
-    
-            if (!userId) {
-                setError("User not found. Please log in again.");
-                setIsLoading(false);
-                return;
+
+            const payload = {
+                destination,
+                startDate,
+                endDate,
+                budget,
+                activities,
+            };
+
+            if (userId) {
+                payload.user_id = userId;
+            } else {
+                payload.guest = true;
             }
-    
+
             const response = await fetch('http://127.0.0.1:5000/trip-input', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    user_id: userId,
-                    destination,
-                    startDate,
-                    endDate,
-                    budget,
-                    activities
-                })
+                body: JSON.stringify(payload),
             });
-    
+
             const data = await response.json();
-    
+
             if (data.success) {
-                setSuccess(data.message || "Itinerary generated successfully.");
-                setTimeout(() => {
-                    navigate('/saved-itineraries');
-                }, 800);
+                if (userId) {
+                    setSuccess(data.message || 'Itinerary generated successfully.');
+                    setTimeout(() => {
+                        navigate('/saved-itineraries');
+                    }, 800);
+                } else {
+                    navigate('/itinerary-results', {
+                        state: {
+                            destination,
+                            startDate,
+                            endDate,
+                            budget,
+                            activities,
+                            itinerary: data.itinerary,
+                        },
+                    });
+                }
             } else {
-                setError(data.message || "Failed to generate itinerary.");
+                setError(data.message || 'Failed to generate itinerary.');
             }
-        } catch (error) {
-            console.error("Error fetching itinerary:", error);
+        } catch (err) {
+            console.error('Error fetching itinerary:', err);
             setError('Failed to connect to the server. Please try again later.');
         } finally {
             setIsLoading(false);
@@ -116,10 +135,10 @@ const TripInputPage = () => {
                         new Map(
                             cityResults
                                 .sort((a, b) => {
-                                    const priority = ["city", "town", "municipality"];
+                                    const priority = ['city', 'town', 'municipality'];
                                     return priority.indexOf(a.type) - priority.indexOf(b.type);
                                 })
-                                .map(city => {
+                                .map((city) => {
                                     const addr = city.address || {};
 
                                     const cityName =
@@ -136,24 +155,27 @@ const TripInputPage = () => {
                                             ? `${cityName}, ${country}`
                                             : city.display_name;
 
-                                    return [label, {
-                                        value: label,
-                                        label
-                                    }];
+                                    return [
+                                        label,
+                                        {
+                                            value: label,
+                                            label,
+                                        },
+                                    ];
                                 })
                         ).values()
                     )}
                     onInputChange={(value, action) => {
-                        if (action.action === "input-change") {
-                            setDestination(value || "");
+                        if (action.action === 'input-change') {
+                            setDestination(value || '');
                         }
                     }}
                     onChange={(selected) => {
-                        setDestination(selected ? selected.value : "");
+                        setDestination(selected ? selected.value : '');
                     }}
                     placeholder="Enter a city..."
                     isClearable
-                    noOptionsMessage={() => "Type to search cities..."}
+                    noOptionsMessage={() => 'Type to search cities...'}
                 />
 
                 <label htmlFor="start">Start Date:</label>
@@ -217,25 +239,29 @@ const TripInputPage = () => {
                 />
 
                 {error && (
-                    <div style={{
-                        color: '#D32F2F',
-                        backgroundColor: '#FFEBEE',
-                        padding: '10px',
-                        borderRadius: '4px',
-                        marginTop: '15px'
-                    }}>
+                    <div
+                        style={{
+                            color: '#D32F2F',
+                            backgroundColor: '#FFEBEE',
+                            padding: '10px',
+                            borderRadius: '4px',
+                            marginTop: '15px',
+                        }}
+                    >
                         {error}
                     </div>
                 )}
 
                 {success && (
-                    <div style={{
-                        color: '#2E7D32',
-                        backgroundColor: '#E8F5E9',
-                        padding: '10px',
-                        borderRadius: '4px',
-                        marginTop: '15px'
-                    }}>
+                    <div
+                        style={{
+                            color: '#2E7D32',
+                            backgroundColor: '#E8F5E9',
+                            padding: '10px',
+                            borderRadius: '4px',
+                            marginTop: '15px',
+                        }}
+                    >
                         {success}
                     </div>
                 )}

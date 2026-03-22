@@ -1,3 +1,6 @@
+<<<<<<< HEAD
 venv/
 __pycache__/
+=======
+>>>>>>> origin/LLM_Integration
 .env
