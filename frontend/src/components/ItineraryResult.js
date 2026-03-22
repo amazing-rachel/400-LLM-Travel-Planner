@@ -3,7 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './ItineraryResult.module.css';
 
 function parseDays(itineraryText) {
-  const dayBlocks = itineraryText.split(/Day \d+ —/).filter(Boolean);
+  let text = typeof itineraryText === 'string' ? itineraryText : '';
+  text = text.replace(/^\s*:\s*/, '').trim();
+  const dayBlocks = text.split(/Day\s+\d+\s*[—–-]\s*/).filter(Boolean);
   return dayBlocks.map((block, index) => {
     const titleMatch = block.match(/\d{4}-\d{2}-\d{2} \((.*)\)/);
     const dayTitle = titleMatch ? titleMatch[1] : '';
@@ -23,6 +25,39 @@ function parseDays(itineraryText) {
   });
 }
 
+/** Flask backend returns JSON: { day_by_day_info: [{ day, date, title, activities: [{time, activity}] }] } */
+function parseStructuredItinerary(itineraryObj) {
+  if (!itineraryObj || typeof itineraryObj !== 'object') {
+    return [];
+  }
+  const days = itineraryObj.day_by_day_info;
+  if (!Array.isArray(days)) {
+    return [];
+  }
+  const mapped = days.map((d, index) => ({
+    day: `Day ${d.day != null ? d.day : index + 1}`,
+    title: d.title || d.date || '',
+    sections: (d.activities || []).map((a) => ({
+      time: a.time || '',
+      activity: (a.activity || '').replace(/^\s*:\s*/, '').trim(),
+    })),
+  }));
+
+  /* Legacy: one blob from old backend — re-parse with same rules as plain-text LLM */
+  if (
+    mapped.length === 1 &&
+    mapped[0].sections.length === 1 &&
+    (!mapped[0].sections[0].time || mapped[0].sections[0].time === '') &&
+    (mapped[0].sections[0].activity || '').length > 120
+  ) {
+    const blob = mapped[0].sections[0].activity;
+    if (/Day\s+\d+\s*[—–-]/i.test(blob)) {
+      return parseDays(blob);
+    }
+  }
+  return mapped;
+}
+
 const ItineraryResult = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,10 +71,23 @@ const ItineraryResult = () => {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (!tripData || !tripData.itinerary) return;
-
-    const parsed = parseDays(tripData.itinerary);
-    setDays(parsed);
+    if (!tripData) {
+      setLoading(false);
+      return;
+    }
+    const raw = tripData.itinerary;
+    if (raw == null) {
+      setDays([]);
+      setLoading(false);
+      return;
+    }
+    if (typeof raw === 'string') {
+      setDays(parseDays(raw));
+    } else if (typeof raw === 'object') {
+      setDays(parseStructuredItinerary(raw));
+    } else {
+      setDays([]);
+    }
     setLoading(false);
   }, [tripData]);
 
@@ -99,7 +147,10 @@ const ItineraryResult = () => {
                     <h4>{day.day} — {day.title}</h4>
                     {day.sections.map((sec, idx) => (
                       <div key={idx} className={styles.activity}>
-                        <strong>{sec.time}:</strong> {sec.activity}
+                        {sec.time ? (
+                          <strong className={styles.sectionLabel}>{sec.time}:</strong>
+                        ) : null}
+                        <div className={styles.activityBody}>{sec.activity}</div>
                       </div>
                     ))}
                   </div>

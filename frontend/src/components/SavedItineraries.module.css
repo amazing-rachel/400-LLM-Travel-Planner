@@ -1,7 +1,20 @@
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 24px;
   background: white;
   padding: 40px;
   border-radius: 12px;
@@ -12,6 +25,11 @@
   border-left: 6px solid #5ca508;
 }
 
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
 .pageTitle {
   text-align: center;
   color: #d4ffa3;
@@ -20,12 +38,68 @@
   font-weight: 800; 
 }
 
+.dateText {
+  font-weight: 500;
+  color: #5ca508;
+  font-size: 0.95em;
+}
+
 /* Buttons on Itinerary Card */
 .actions {
   display: flex;
+  flex-direction: column;
   gap: 15px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  align-items: stretch;
+  min-width: 160px;
+}
+
+.itineraryDays {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dayBlock {
+  border-left: 4px solid #498406;
+  padding-left: 14px;
+}
+
+.dayHeading {
+  margin: 0 0 10px 0;
+  color: #498406;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.sectionRow {
+  margin-bottom: 10px;
+}
+
+.sectionLabel {
+  display: block;
+  margin-bottom: 4px;
+  color: #1e3602;
+  font-size: 0.95rem;
+}
+
+.sectionBody {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.fallbackParagraph {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  color: #333;
 }
 
 .actions button, .actions select {

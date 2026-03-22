@@ -35,7 +35,20 @@
   transition: color 0.2s;
 }
 
-.navLink:hover {
+/* Match <Link> styling — native <button> has grey background / border otherwise */
+button.navLink {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 500;
+  color: #498406;
+  cursor: pointer;
+}
+
+.navLink:hover,
+button.navLink:hover {
   color: #ebffd4;
 }
 

@@ -123,3 +123,38 @@
     background: #bdff71;
     color:#498406;
 }
+
+.dayContent {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dayCard {
+  border-left: 4px solid #498406;
+  padding-left: 16px;
+}
+
+.dayCard h4 {
+  margin: 0 0 12px 0;
+  color: #498406;
+  font-size: 1.15rem;
+}
+
+.activity {
+  margin-bottom: 12px;
+}
+
+.sectionLabel {
+  display: block;
+  margin-bottom: 6px;
+  color: #1e3602;
+}
+
+.activityBody {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  color: #333;
+}

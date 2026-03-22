@@ -18,6 +18,34 @@ function calculateDuration(startDate, endDate) {
   return diff > 0 ? diff : 0;
 }
 
+function ItineraryDayBlocks({ dayByDayInfo }) {
+  if (!Array.isArray(dayByDayInfo) || dayByDayInfo.length === 0) {
+    return null;
+  }
+  return (
+    <div className={styles.itineraryDays}>
+      {dayByDayInfo.map((day, di) => (
+        <div key={di} className={styles.dayBlock}>
+          <h3 className={styles.dayHeading}>
+            Day {day.day != null ? day.day : di + 1}
+            {day.title || day.date
+              ? ` — ${day.title || day.date}`
+              : ''}
+          </h3>
+          {(day.activities || []).map((sec, si) => (
+            <div key={si} className={styles.sectionRow}>
+              {sec.time ? (
+                <strong className={styles.sectionLabel}>{sec.time}:</strong>
+              ) : null}
+              <div className={styles.sectionBody}>{sec.activity}</div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function SavedItineraries() {
   const [trips, setTrips] = useState([]);
   const [editingTrip, setEditingTrip] = useState(null);
@@ -43,10 +71,12 @@ export default function SavedItineraries() {
             destination: trip.destination,
             duration: `${calculateDuration(trip.startDate, trip.endDate)} Days`,
             date: trip.startDate,
+            endDate: trip.endDate,
             budget: `$${trip.budget}`,
+            day_by_day_info: trip.day_by_day_info,
             activities: formatActivities(trip.day_by_day_info),
             rank: index + 1,
-            notes: ''
+            notes: '',
           }));
 
           setTrips(formattedTrips);
@@ -76,10 +106,12 @@ export default function SavedItineraries() {
       }
 
       await navigator.clipboard.writeText(shareText);
-      alert("Sharing is not supported here, so the itinerary text was copied to your clipboard instead.");
+      alert(
+        'Sharing is not supported here, so the itinerary text was copied to your clipboard instead.'
+      );
     } catch (err) {
-      console.error("Share error:", err);
-      alert("Unable to share this itinerary right now.");
+      console.error('Share error:', err);
+      alert('Unable to share this itinerary right now.');
     }
   };
 
@@ -93,6 +125,21 @@ export default function SavedItineraries() {
   const handleSaveEdit = async (e) => {
     e.preventDefault();
 
+    const dayPayload =
+      editingTrip.day_by_day_info ||
+      (editingTrip.activities
+        ? [
+            {
+              day: 1,
+              date: editingTrip.date,
+              title: '',
+              activities: [
+                { time: '', activity: String(editingTrip.activities) },
+              ],
+            },
+          ]
+        : []);
+
     try {
       const response = await fetch(`http://127.0.0.1:5000/update-itinerary/${editingTrip.id}`, {
         method: 'PUT',
@@ -100,17 +147,25 @@ export default function SavedItineraries() {
         body: JSON.stringify({
           destination: editingTrip.destination,
           startDate: editingTrip.date,
-          budget: editingTrip.budget.replace('$', ''),
-          day_by_day_info: editingTrip.activities
+          endDate: editingTrip.endDate,
+          budget: editingTrip.budget.replace(/\$/g, '').trim(),
+          day_by_day_info: dayPayload,
         })
       });
 
       const data = await response.json();
 
       if (data.success) {
-        const updatedTrips = trips.map(t =>
-          t.id === editingTrip.id ? editingTrip : t
-        );
+        const updatedTrips = trips.map((t) => {
+          if (t.id !== editingTrip.id) return t;
+          const b = editingTrip.budget.replace(/\$/g, '').trim();
+          return {
+            ...editingTrip,
+            budget: `$${b}`,
+            day_by_day_info: dayPayload,
+            activities: formatActivities(dayPayload),
+          };
+        });
         setTrips(updatedTrips);
         setEditingTrip(null);
       } else {
@@ -158,19 +213,30 @@ export default function SavedItineraries() {
         </div>
       )}
 
-      <div className={styles.list}>
+        <div className={styles.list}>
         {trips.map((trip) => (
           <div key={trip.id} className={styles.card}>
             <div className={styles.info}>
               <h2>{trip.destination} <span className={styles.dateText}>({trip.date})</span></h2>
               <p><strong>{trip.duration}</strong></p>
               <p><strong>Budget: {trip.budget}</strong></p>
-              <p>{trip.activities}</p>
+              {Array.isArray(trip.day_by_day_info) && trip.day_by_day_info.length > 0 ? (
+                <ItineraryDayBlocks dayByDayInfo={trip.day_by_day_info} />
+              ) : (
+                <p className={styles.fallbackParagraph}>{trip.activities}</p>
+              )}
             </div>
 
             <div className={styles.actions}>
-              <select value={trip.rank} onChange={(e) => handleRankChange(trip.id, e.target.value)}>
-                {[1, 2, 3, 4, 5].map(n => <option key={n} value={n}>Rank {n}</option>)}
+              <select
+                value={trip.rank}
+                onChange={(e) => handleRankChange(trip.id, e.target.value)}
+              >
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <option key={n} value={n}>
+                    Rank {n}
+                  </option>
+                ))}
               </select>
               <button onClick={() => handleShare(trip)}>Share</button>
               <button onClick={() => setEditingTrip(trip)}>Edit Details</button>

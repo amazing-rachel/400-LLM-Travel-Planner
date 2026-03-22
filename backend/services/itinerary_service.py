@@ -1,13 +1,147 @@
 import json
+import os
+import re
 from datetime import datetime, timedelta
+from types import SimpleNamespace
 
 from database.db import get_connection
 from utils.response import success_response, error_response
 from utils.validators import validate_trip_dates
 
 
+def _try_gemini_itinerary_text(
+    destination, start_date, end_date, estimated_price, activities
+):
+    """
+    Call teammate `llmService.generate_itinerary` (Gemini). Only import when
+    GEMINI_API_KEY is set. Returns plain text or None on failure / missing key.
+    """
+    if not (os.getenv("GEMINI_API_KEY") or "").strip():
+        return None
+    try:
+        from llmService import generate_itinerary
+
+        data = SimpleNamespace(
+            destination=destination,
+            startDate=start_date,
+            endDate=end_date,
+            budget=int(float(estimated_price or 0)),
+            activities=str(activities or ""),
+        )
+        text = generate_itinerary(data)
+        if not text or not str(text).strip():
+            return None
+        return str(text).strip()
+    except Exception as exc:
+        print("Gemini itinerary error:", exc)
+        return None
+
+
+def _parse_gemini_text_to_day_blocks(text, start_date):
+    """
+    Split Gemini plain-text (Day 1 — date (title) / Morning / …) into the same
+    structure the React ItineraryResult page expects. Falls back to one block if
+    parsing finds no day sections.
+    """
+    text = (text or "").strip()
+    text = re.sub(r"^\s*:\s*", "", text).strip()
+    if not text:
+        return None
+
+    parts = re.split(r"(?m)^Day\s+\d+\s*[—–-]\s*", text)
+    parts = [p.strip() for p in parts if p.strip()]
+    if not parts:
+        return None
+    if (
+        len(parts) > 1
+        and not re.search(r"\d{4}-\d{2}-\d{2}", parts[0])
+        and "Morning" not in parts[0]
+        and re.search(r"\d{4}-\d{2}-\d{2}", parts[1])
+    ):
+        parts = parts[1:]
+
+    headings = [
+        "Morning",
+        "Afternoon",
+        "Lunch",
+        "Evening",
+        "Dinner",
+        "Daily total estimate",
+    ]
+    day_blocks = []
+
+    for index, block in enumerate(parts):
+        dt_m = re.search(r"(\d{4}-\d{2}-\d{2})\s*\(([^)]*)\)", block)
+        if dt_m:
+            date_str = dt_m.group(1)
+            day_title = dt_m.group(2).strip()
+        else:
+            date_str = start_date
+            day_title = ""
+
+        activities = []
+        for i, heading in enumerate(headings):
+            next_h = headings[i + 1] if i + 1 < len(headings) else None
+            if next_h:
+                pat = (
+                    rf"{re.escape(heading)}\s*\r?\n"
+                    rf"([\s\S]*?)(?=\s*{re.escape(next_h)}|\Z)"
+                )
+            else:
+                pat = rf"{re.escape(heading)}\s*\r?\n([\s\S]*)"
+            mm = re.search(pat, block)
+            if mm:
+                activities.append(
+                    {"time": heading, "activity": mm.group(1).strip()}
+                )
+
+        if not activities:
+            activities.append({"time": "Itinerary", "activity": block})
+
+        day_blocks.append(
+            {
+                "day": index + 1,
+                "date": date_str,
+                "title": day_title or f"Day {index + 1}",
+                "activities": activities,
+            }
+        )
+
+    return day_blocks
+
+
+def _wrap_llm_text_as_itinerary(
+    text, destination, start_date, end_date, estimated_price
+):
+    """Map Gemini plain-text output to the JSON shape used by DB and frontend."""
+    day_by_day_info = _parse_gemini_text_to_day_blocks(text, start_date)
+    if not day_by_day_info:
+        day_by_day_info = [
+            {
+                "day": 1,
+                "date": start_date,
+                "title": f"Itinerary — {destination}",
+                "activities": [{"time": "", "activity": (text or "").strip()}],
+            }
+        ]
+    return {
+        "destination": destination,
+        "startDate": start_date,
+        "endDate": end_date,
+        "budget": float(estimated_price or 0),
+        "day_by_day_info": day_by_day_info,
+    }
+
+
 def build_itinerary(destination, start_date, end_date, estimated_price, activities):
-    """Mock itinerary until LLM branch is merged and wired in."""
+    """Prefer Gemini (`llmService` + GEMINI_API_KEY); otherwise mock data."""
+    llm_text = _try_gemini_itinerary_text(
+        destination, start_date, end_date, estimated_price, activities
+    )
+    if llm_text:
+        return _wrap_llm_text_as_itinerary(
+            llm_text, destination, start_date, end_date, estimated_price
+        )
     return build_mock_itinerary(
         destination=destination,
         start_date=start_date,
