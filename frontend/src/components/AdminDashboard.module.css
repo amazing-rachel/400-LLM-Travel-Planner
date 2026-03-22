@@ -13,13 +13,13 @@
 }
 
 .pageTitle {
-  color: #e5ffc8;
+  color: #bee0ff;
   margin: 0;
   font-size: 2.2rem;
 }
 
 .pageSubtitle {
-  color: #e5ffc8;
+  color: #bee0ff;
   margin: 0;
   font-size: 1.5rem;
 }
@@ -41,7 +41,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  border-top: 4px solid #23c100; 
+  border-top: 4px solid #2097ff; 
   text-align: center;
 }
 
@@ -154,10 +154,10 @@
 }
 
 .editSaveButton {
-  background-color: #498406;
+  background-color: #2097ff;
   color: white;
   border-radius: 5px;
-  border-color: #498406; 
+  border-color: #2097ff; 
   font-weight: bold;
 
 }

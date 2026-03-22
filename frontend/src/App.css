@@ -85,11 +85,11 @@
 /* Landing page */
 .landing-page-theme {
   --bg-opacity: 0.4;
-  color: #498406;
+  color: #0088ff;
 }
 
 .glass-panel {
-  background: #d4ffa3; 
+  background: #8ac8ff;
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);

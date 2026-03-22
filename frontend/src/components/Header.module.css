@@ -1,6 +1,6 @@
 .header {
-  background-color: #d4ffa3;
-  color: #498406;
+  background-color: #8ac8ff;
+  color: #0088ff;
   padding: 15px 30px;
   display: grid;
   align-items: center;
@@ -21,7 +21,7 @@
 }
 
 .nav {
-  background-color: #bdff71; 
+  background-color: #6cbaff;
   padding: 15px;
   display: flex;
   justify-content: center;
@@ -29,14 +29,15 @@
 }
 
 .navLink {
-  color: #498406;
+  color: #0374d6;
   text-decoration: none;
   font-weight: 500;
+  font-size: 1.2rem;
   transition: color 0.2s;
 }
 
 .navLink:hover {
-  color: #ebffd4;
+  color: #ffffff;
 }
 
 .accountTitle {
@@ -54,10 +55,10 @@
 
 .profileButton {
   font-size: 0.8rem;
-  color: #498406;
-  background-color: #d4ffa3;
+  color: #0088ff;
+  background-color: #8ac8ff;
   text-decoration: none;
-  border: 1px solid #498406;
+  border: 1px solid #0088ff;
   padding: 4px 8px;
   border-radius: 4px;
   transition: all 0.2s;
@@ -66,23 +67,23 @@
 }
 
 .profileButton:hover {
-  background-color: #498406;
+  background-color: #0088ff;
   color: white;
 }
 
 .dropdown {
   position: relative;
   display: inline-block;
-  background-color:#bdff71;
+  background-color:#8ac8ff;
 }
 
 .dropdownContent {
   display: none;
   position: absolute;
   right: 0;
-  background-color: #d4ffa3;
+  background-color: #8ac8ff;
   min-width: 180px;
-  border: 1px solid #498406;
+  border: 1px solid #0088ff;
   border-radius: 6px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -91,13 +92,13 @@
 .dropdownItem {
   display: block;
   padding: 10px;
-  color: #498406;
+  color: #0088ff;
   text-decoration: none;
   font-size: 0.9rem;
 }
 
 .dropdownItem:hover {
-  background-color: #498406;
+  background-color: #0088ff;
   color: white;
 }
 

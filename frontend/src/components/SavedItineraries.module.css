@@ -9,12 +9,13 @@
   margin-left: 100px;
   margin-right: 100px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  border-left: 6px solid #5ca508;
+  border-left: 6px solid #0088ff;
 }
 
 .pageTitle {
-  text-align: center;
-  color: #d4ffa3;
+  text-align:left;
+  margin-left: 105px;
+  color: #bee0ff;
   font-size: 2.5rem;
   margin-bottom: 30px;
   font-weight: 800; 

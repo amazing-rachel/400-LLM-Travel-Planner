@@ -80,8 +80,8 @@ const SavedItineraries = () => {
           <div key={trip.id} className={styles.card}>
             <div className={styles.info}>
               <h2>{trip.destination} <span className={styles.dateText}>({trip.date})</span></h2>
-              <p><strong>{trip.duration}</strong></p>
-              <p><strong>Budget: {trip.budget}</strong></p>
+              <p>{trip.duration}</p>
+              <p>Budget: {trip.budget}</p>
             </div>
 
             <div className={styles.actions}>

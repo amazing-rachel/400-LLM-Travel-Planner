@@ -6,7 +6,7 @@
 
 .pageTitle {
   text-align: left;
-  color: #8fe829;
+  color: #bee0ff;
   margin-bottom: 20px;
 }
 
@@ -15,7 +15,7 @@
   padding: 60px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  border-left: 8px solid #498406;
+  border-left: 8px solid #2097ff;
 }
 
 /* View Profile */
@@ -85,13 +85,17 @@
 }
 
 .saveBtn, .editBtn {
-  background-color: #498406;
+  background-color: #2097ff;
   color: white;
   border: 1px solid #ccc;
   padding: 12px 24px;
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.saveBtn, .editBtn:hover {
+    background-color:#0088ff;
 }
 
 .sectionHeader {

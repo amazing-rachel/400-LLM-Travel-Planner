@@ -7,7 +7,7 @@
 .resultsHeader {
   text-align: left;
   margin-bottom: 40px;
-  color:#bbff6e
+  color:#bee0ff;
 }
 
 /* Itinerary Results */
@@ -31,14 +31,13 @@
 }
 
 .optionCard:hover {
-  border-color: #498406;
+  border-color: #00396b;
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
 
 .savedCard {
-  border-color: #498406;
-  background-color: #f6fff6;
+  border-color: #006dcb;
 }
 
 .cardContent {
@@ -55,8 +54,8 @@
 
 .price {
   font-weight: bold;
-  color: #498406;
-  background: #e6f8e6;
+  color: #0883ef;
+  background: #e0f0ff;
   padding: 15px 15px; 
   border-radius: 8px;
   font-size: 0.9rem;
@@ -65,7 +64,7 @@
 
 .cardActions {
   padding: 20px;
-  background: #fafafa;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -83,7 +82,7 @@
 
 /* Save & Saved Buttons */
 .saveButton {
-  background: #498406;
+  background: #2097ff;
   color: white;
   border: none;
   padding: 10px;
@@ -93,7 +92,7 @@
 }
 
 .savedButton {
-  background: #1e3602;
+  background: #024c8c;
   color: white;
   border: none;
   padding: 10px;
@@ -110,7 +109,7 @@
 
 /* Go to Saved or Back to Trip Input */
 .goButton {
-  background: #498406;
+  background: #2097ff;
   color: white;
   border: none;
   padding: 12px 25px;
@@ -120,6 +119,6 @@
 }
 
 .goButton:hover {
-    background: #bdff71;
-    color:#498406;
+    background: #00396b;
+    color:#ffffff;
 }
