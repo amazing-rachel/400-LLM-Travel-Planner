@@ -13,8 +13,10 @@ import SavedItineraries from './components/SavedItineraries';
 import AdminDashboard from './components/AdminDashboard';
 import ItineraryResult from './components/ItineraryResult';
 import UserProfile from './components/UserProfile';
+import { useAuth } from './context/AuthContext';
 
 function AppContent() {
+  const { user } = useAuth();
   const themeClass = 'landing-page-theme';
 
   return (
@@ -37,7 +39,19 @@ function AppContent() {
 
           <Route path="/user-consent" element={<UserConsentPage />} />
 
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route
+            path="/admin"
+            element={
+              user && user.role === 'admin' ? (
+                <AdminDashboard />
+              ) : (
+                <div style={{ textAlign: 'center', padding: '50px' }}>
+                  <p>Access denied. Please sign in as an administrator.</p>
+                  <a href="/admin-login">Admin login</a>
+                </div>
+              )
+            }
+          />
 
           <Route path="/profile" element={<UserProfile />} />
 

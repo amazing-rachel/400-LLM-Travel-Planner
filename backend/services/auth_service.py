@@ -120,6 +120,11 @@ def _login(payload, admin_only=False):
         if not bcrypt.checkpw(password.encode(), user["password"].encode()):
             return error_response("Invalid username or password.", 401)
 
+        if admin_only:
+            if user["role"] != "admin":
+                return error_response(
+                    "Access denied. Administrator account required.", 403
+                )
         return success_response(
             "Login successful.",
             200,
@@ -128,8 +133,10 @@ def _login(payload, admin_only=False):
                 "username": user["username"],
                 "email": user["email"],
                 "role": user["role"],
-                "consent_given": user["consent_given"]
-            }
+                "consent_given": user["consent_given"],
+                "firstName": user["first_name"] or "",
+                "lastName": user["last_name"] or "",
+            },
         )
 
     finally:

@@ -38,6 +38,25 @@
   font-weight: 800; 
 }
 
+.pageSubtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  margin: -20px auto 28px;
+  max-width: 640px;
+  line-height: 1.4;
+}
+
+.ownerLine {
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  color: #2e5a0a;
+  padding: 8px 12px;
+  background: rgba(92, 165, 8, 0.12);
+  border-radius: 8px;
+  display: inline-block;
+}
+
 .dateText {
   font-weight: 500;
   color: #5ca508;

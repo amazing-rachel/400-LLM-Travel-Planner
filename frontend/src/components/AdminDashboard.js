@@ -1,30 +1,95 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './AdminDashboard.module.css';
+import { API_BASE, adminHeaders } from '../config/api';
 
 const AdminDashboard = () => {
-  // System Metrics
-  // Backend stuff goes here, temporarily using mock data 
-  const [metrics] = useState({
-    serverThroughput: "150 req/sec",
-    activeConcurrentRequests: 100,
-    memoryLatency: "45 ms",
-    memoryOverhead: "1.2 GB",
-    llmUsage: "95%"
-  });
+  const [metrics, setMetrics] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [loadingMetrics, setLoadingMetrics] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [error, setError] = useState('');
 
-  // Mock User Data
-  // Backend stuff goes here, temporarily using mock data 
-  const [users, setUsers] = useState([
-    { id: '01', name: 'Jane Doe', email: 'janedoe@example.com', savedTrips: 4, status: 'Active' },
-    { id: '02', name: 'John Doe', email: 'johndoe@example.com', savedTrips: 1, status: 'Active' },
-    { id: '03', name: 'Mary Jane', email: 'maryjane@example.com', savedTrips: 12, status: 'Suspended' },
-  ]);
+  const loadData = useCallback(async () => {
+    setError('');
+    const headers = {
+      'Content-Type': 'application/json',
+      ...adminHeaders(),
+    };
 
-  const handleDeleteUser = (id) => {
-  // Backend stuff goes here, temporarily using mock data 
-    if(window.confirm("Are you sure you want to delete this user?")) {
-      setUsers(users.filter(user => user.id !== id));
+    setLoadingMetrics(true);
+    setLoadingUsers(true);
+
+    try {
+      const [mRes, uRes] = await Promise.all([
+        fetch(`${API_BASE}/admin/metrics`, { headers }),
+        fetch(`${API_BASE}/admin/users`, { headers }),
+      ]);
+
+      const mData = await mRes.json();
+      const uData = await uRes.json();
+
+      if (!mData.success) {
+        setError(mData.message || 'Failed to load metrics.');
+      } else {
+        setMetrics({
+          serverThroughput: mData.serverThroughput,
+          activeConcurrentRequests: mData.activeConcurrentRequests,
+          memoryLatency: mData.memoryLatency,
+          memoryOverhead: mData.memoryOverhead,
+          llmUsage: mData.llmUsage,
+        });
+      }
+
+      if (!uData.success) {
+        setError((prev) =>
+          prev
+            ? `${prev} ${uData.message || 'Failed to load users.'}`
+            : uData.message || 'Failed to load users.'
+        );
+      } else {
+        setUsers(uData.users || []);
+      }
+    } catch (e) {
+      console.error(e);
+      setError('Could not reach the server. Is the backend running?');
+    } finally {
+      setLoadingMetrics(false);
+      setLoadingUsers(false);
     }
+  }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const handleDeleteUser = async (id) => {
+    if (!window.confirm('Are you sure you want to remove this user?')) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/admin/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...adminHeaders(),
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUsers((prev) => prev.filter((u) => u.id !== id));
+      } else {
+        alert(data.message || 'Could not delete user.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Request failed.');
+    }
+  };
+
+  const metricVal = (key, fallback = '—') => {
+    if (loadingMetrics) return 'Loading…';
+    if (!metrics) return fallback;
+    const v = metrics[key];
+    return v != null && v !== '' ? String(v) : fallback;
   };
 
   return (
@@ -33,37 +98,53 @@ const AdminDashboard = () => {
         <h1 className={styles.pageTitle}>Admin Dashboard</h1>
       </div>
 
-      {/* System Metrics */}
+      {error && (
+        <div
+          style={{
+            color: '#b71c1c',
+            background: '#ffebee',
+            padding: '12px 16px',
+            borderRadius: 8,
+            marginBottom: 16,
+            textAlign: 'center',
+          }}
+        >
+          {error}
+        </div>
+      )}
+
       <section className={styles.metricsSection}>
         <h2 className={styles.pageSubtitle}>System Performance</h2>
         <div className={styles.metricsGrid}>
           <div className={styles.metricCard}>
             <h3>Server Throughput</h3>
-            <p className={styles.metricValue}>{metrics.serverThroughput}</p>
+            <p className={styles.metricValue}>
+              {metricVal('serverThroughput')}
+            </p>
           </div>
           <div className={styles.metricCard}>
             <h3>Concurrent Requests</h3>
-            <p className={styles.metricValue}>{metrics.activeConcurrentRequests}</p>
+            <p className={styles.metricValue}>
+              {metricVal('activeConcurrentRequests', '0')}
+            </p>
           </div>
           <div className={styles.metricCard}>
             <h3>Average Memory Latency</h3>
-            <p className={styles.metricValue}>{metrics.memoryLatency}</p>
+            <p className={styles.metricValue}>{metricVal('memoryLatency')}</p>
           </div>
           <div className={styles.metricCard}>
             <h3>Memory Overhead</h3>
-            <p className={styles.metricValue}>{metrics.memoryOverhead}</p>
+            <p className={styles.metricValue}>{metricVal('memoryOverhead')}</p>
           </div>
           <div className={styles.metricCard}>
             <h3>LLM API Uptime</h3>
-            <p className={styles.metricValue}>{metrics.llmUsage}</p>
+            <p className={styles.metricValue}>{metricVal('llmUsage')}</p>
           </div>
         </div>
       </section>
 
-      {/* User List */}
       <section className={styles.usersSection}>
         <h1 className={styles.pageSubtitle}>Registered Users</h1>
-        <p></p>
         <div className={styles.tableContainer}>
           <table className={styles.userTable}>
             <thead>
@@ -77,27 +158,48 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.savedTrips}</td>
-                  <td>
-                    <span className={`${styles.statusBadge} ${user.status === 'Active' ? styles.active : styles.suspended}`}>
-                      {user.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button 
-                      className={styles.deleteBtn} 
-                      onClick={() => handleDeleteUser(user.id)}
-                    >
-                      Remove
-                    </button>
+              {loadingUsers ? (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: 'center' }}>
+                    Loading users…
                   </td>
                 </tr>
-              ))}
+              ) : users.length === 0 ? (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: 'center' }}>
+                    No registered users yet.
+                  </td>
+                </tr>
+              ) : (
+                users.map((user) => (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.savedTrips}</td>
+                    <td>
+                      <span
+                        className={`${styles.statusBadge} ${
+                          user.status === 'Active'
+                            ? styles.active
+                            : styles.suspended
+                        }`}
+                      >
+                        {user.status}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className={styles.deleteBtn}
+                        onClick={() => handleDeleteUser(user.id)}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

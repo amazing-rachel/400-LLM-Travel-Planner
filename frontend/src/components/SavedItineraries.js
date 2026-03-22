@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './SavedItineraries.module.css';
+import { API_BASE, adminHeaders } from '../config/api';
 
 function formatActivities(dayByDayInfo) {
   if (!Array.isArray(dayByDayInfo)) return '';
@@ -50,6 +51,7 @@ export default function SavedItineraries() {
   const [trips, setTrips] = useState([]);
   const [editingTrip, setEditingTrip] = useState(null);
   const [error, setError] = useState('');
+  const [isAdminView, setIsAdminView] = useState(false);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -62,22 +64,39 @@ export default function SavedItineraries() {
           return;
         }
 
-        const response = await fetch(`http://127.0.0.1:5000/saved-itineraries/${userId}`);
+        const admin = user?.role === 'admin';
+        setIsAdminView(admin);
+
+        const url = admin
+          ? `${API_BASE}/admin/saved-itineraries`
+          : `${API_BASE}/saved-itineraries/${userId}`;
+        const headers = admin
+          ? { 'Content-Type': 'application/json', ...adminHeaders() }
+          : {};
+
+        const response = await fetch(url, { headers });
         const data = await response.json();
 
         if (data.success) {
-          const formattedTrips = (data.itineraries || []).map((trip, index) => ({
-            id: trip.itinerary_id,
-            destination: trip.destination,
-            duration: `${calculateDuration(trip.startDate, trip.endDate)} Days`,
-            date: trip.startDate,
-            endDate: trip.endDate,
-            budget: `$${trip.budget}`,
-            day_by_day_info: trip.day_by_day_info,
-            activities: formatActivities(trip.day_by_day_info),
-            rank: index + 1,
-            notes: '',
-          }));
+          const formattedTrips = (data.itineraries || []).map((trip, index) => {
+            const ownerLabel =
+              admin && trip.owner_display_name
+                ? `${trip.owner_display_name} · ${trip.owner_email || ''}`
+                : null;
+            return {
+              id: trip.itinerary_id,
+              destination: trip.destination,
+              duration: `${calculateDuration(trip.startDate, trip.endDate)} Days`,
+              date: trip.startDate,
+              endDate: trip.endDate,
+              budget: `$${trip.budget}`,
+              day_by_day_info: trip.day_by_day_info,
+              activities: formatActivities(trip.day_by_day_info),
+              rank: index + 1,
+              notes: '',
+              ownerLabel,
+            };
+          });
 
           setTrips(formattedTrips);
         } else {
@@ -141,7 +160,7 @@ export default function SavedItineraries() {
         : []);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/update-itinerary/${editingTrip.id}`, {
+      const response = await fetch(`${API_BASE}/update-itinerary/${editingTrip.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -179,7 +198,7 @@ export default function SavedItineraries() {
 
   const handleUnsave = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/delete-itinerary/${id}`, {
+      const response = await fetch(`${API_BASE}/delete-itinerary/${id}`, {
         method: 'DELETE'
       });
 
@@ -199,6 +218,11 @@ export default function SavedItineraries() {
   return (
     <div className={styles.pageContainer}>
       <h1 className={styles.pageTitle}>Saved Itineraries</h1>
+      {isAdminView && (
+        <p className={styles.pageSubtitle}>
+          Administrator view: showing saved itineraries from all registered users.
+        </p>
+      )}
 
       {error && (
         <div style={{
@@ -217,6 +241,11 @@ export default function SavedItineraries() {
         {trips.map((trip) => (
           <div key={trip.id} className={styles.card}>
             <div className={styles.info}>
+              {trip.ownerLabel && (
+                <p className={styles.ownerLine}>
+                  <strong>Saved by:</strong> {trip.ownerLabel}
+                </p>
+              )}
               <h2>{trip.destination} <span className={styles.dateText}>({trip.date})</span></h2>
               <p><strong>{trip.duration}</strong></p>
               <p><strong>Budget: {trip.budget}</strong></p>
