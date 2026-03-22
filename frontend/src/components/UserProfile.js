@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import styles from './UserProfile.module.css';
 
 const UserProfile = () => {
-  const { user } = useAuth(); 
+  const { user, setUser } = useAuth(); 
   const [isEditing, setIsEditing] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ const UserProfile = () => {
         firstName: user.firstName || '',
         lastName: user.lastName || '',
         email: user.email || '',
-        consent: user.consent || false
+        consent: user.consent ?? false,
       });
     }
   }, [user]);
@@ -27,11 +27,35 @@ const UserProfile = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     
-    // Backend stuff can be added here, user should have the same consent setting from consent page
-    console.log("API CALL: PUT /api/users/profile", formData);
-    
-    alert("Profile and consent settings updated!");
-    setIsEditing(false); 
+    try {
+      const response = await fetch(`http://localhost:5000/api/consent/${user.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ consent_given: formData.consent }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update consent');
+
+      const data = await response.json();
+
+      const updatedConsent = Boolean(data.consent_given); // <- directly from response
+
+      // Update local state
+      setFormData(prev => ({ ...prev, consent: updatedConsent }));
+
+      // Update context + localStorage so it persists after refresh
+      setUser(prev => {
+        const updatedUser = { ...prev, consent: updatedConsent };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        return updatedUser;
+      });
+
+      setIsEditing(false);
+      alert('Consent settings updated successfully!');
+    } catch (err) {
+      console.error(err);
+      alert('Error updating consent. Please try again.');
+    }
   };
 
   return (

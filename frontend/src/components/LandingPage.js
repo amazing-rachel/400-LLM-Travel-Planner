@@ -1,7 +1,18 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
+
+const handleGuest = () => {
+    // Clear user from context
+    setUser(null);
+    // Clear user from localStorage
+    localStorage.removeItem('user');
+    // Navigate to trip input as guest
+    navigate('/trip-input');
+  };
 
   return (
     <div className="landing-page">
@@ -28,7 +39,7 @@ const LandingPage = () => {
         <button 
           className="main-btn" 
           style={{ backgroundColor: '#aee300', color: 'white' }}
-          onClick={() => navigate('/trip-input')}
+          onClick={handleGuest}
         >
           Continue as Guest
         </button>

@@ -78,7 +78,7 @@ def register_user(payload):
                 "first_name": first_name,
                 "last_name": last_name,
                 "role": "user",
-                "consent_given": 0
+                "consent": False
             }
         )
     except Exception as e:
@@ -133,7 +133,7 @@ def _login(payload, admin_only=False):
                 "username": user["username"],
                 "email": user["email"],
                 "role": user["role"],
-                "consent_given": user["consent_given"],
+                "consent": bool(user["consent_given"]),
                 "firstName": user["first_name"] or "",
                 "lastName": user["last_name"] or "",
             },

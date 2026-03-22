@@ -9,6 +9,7 @@ const UserConsentPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [success, setSuccess] = useState('');
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -16,15 +17,17 @@ const UserConsentPage = () => {
         setSuccess('');
 
         try {
-            const user = JSON.parse(localStorage.getItem('user'));
-            const userId = user?.id;
+            // Get the signed-up user from localStorage
+            const signupUser = JSON.parse(localStorage.getItem('signupUser'));
+            const userId = signupUser?.id;
 
             if (!userId) {
-                setError('User not found. Please log in again.');
+                setError('User not found. Please sign up again.');
                 setIsLoading(false);
                 return;
             }
 
+            // Send PUT request to update consent in database
             const response = await fetch(`http://127.0.0.1:5000/consent/${userId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -34,12 +37,18 @@ const UserConsentPage = () => {
             const data = await response.json();
 
             if (data.success) {
-                setSuccess(data.message || 'Consent updated successfully.');
+                setSuccess(data.message || 'Consent saved successfully.');
+
+                // Save full user object to localStorage for login
+                const fullUser = { ...signupUser, consent: checked };
+                localStorage.setItem('user', JSON.stringify(fullUser));
+                localStorage.removeItem('signupUser'); // remove temp signup data
+
                 setTimeout(() => {
-                    navigate('/trip-input');
+                    navigate('/login');
                 }, 800);
             } else {
-                setError(data.message || 'Failed to update consent.');
+                setError(data.message || 'Failed to save consent.');
             }
         } catch (error) {
             console.error("Error sending consent:", error);

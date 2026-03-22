@@ -12,6 +12,7 @@ const SignupPage = () => {
     const [errors, setErrors] = useState([]);
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    
 
     const validateUsername = (username) => {
         if (username.length < 3 || username.length > 20) {
@@ -77,14 +78,16 @@ const SignupPage = () => {
                     username,
                     password,
                     email
+                    
                 }),
             });
 
             const data = await response.json();
 
             if (data.success) {
-                setMessage(data.message);
-                setTimeout(() => navigate("/login"), 1000);
+                // Save user temporarily for consent page
+                localStorage.setItem('signupUser', JSON.stringify(data.user));
+                navigate("/user-consent"); // go to consent page after signup
             } else {
                 setErrors([data.message || "Registration failed."]);
             }
