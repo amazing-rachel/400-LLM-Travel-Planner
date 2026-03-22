@@ -6,7 +6,19 @@ from utils.response import success_response, error_response
 from utils.validators import validate_trip_dates
 
 
+def build_itinerary(destination, start_date, end_date, estimated_price, activities):
+    """Mock itinerary until LLM branch is merged and wired in."""
+    return build_mock_itinerary(
+        destination=destination,
+        start_date=start_date,
+        end_date=end_date,
+        estimated_price=estimated_price,
+        activities=activities,
+    )
+
+
 def generate_and_save_itinerary(payload):
+    is_guest = bool(payload.get("guest"))
     user_id = payload.get("user_id") or payload.get("userId") or payload.get("parent_id")
     destination = first_non_empty(
         payload.get("destination"),
@@ -25,20 +37,27 @@ def generate_and_save_itinerary(payload):
     estimated_price = payload.get("budget", payload.get("estimated_price", 0))
     activities = payload.get("activities", "")
 
-    if not user_id:
-        return error_response("User ID is required.", 400)
-
     date_error = validate_trip_dates(start_date, end_date)
     if date_error:
         return error_response(date_error, 400)
 
-    itinerary = build_mock_itinerary(
+    itinerary = build_itinerary(
         destination=destination,
         start_date=start_date,
         end_date=end_date,
         estimated_price=estimated_price,
-        activities=activities
+        activities=activities,
     )
+
+    if is_guest:
+        return success_response(
+            "Itinerary generated successfully.",
+            200,
+            itinerary=itinerary,
+        )
+
+    if not user_id:
+        return error_response("User ID is required.", 400)
 
     conn = get_connection()
     try:
