@@ -54,13 +54,12 @@ function AppContent() {
 
           <Route path="/saved-itineraries" element={<SavedItineraries />} />
           <Route
-  path="/admin"
-  element={
-    user && user.role === "admin"
-      ? <AdminDashboard />
-      : <div style={{ textAlign: 'center', padding: '50px' }}>Access Denied</div>
-  }
-/>
+            path="/admin"
+            element={
+              user && user.role === "admin"
+                ? <AdminDashboard />
+                : <div style={{ textAlign: 'center', padding: '50px' }}>Access Denied</div>
+            }/>
           
           <Route 
             path="/profile" element={<UserProfile />}

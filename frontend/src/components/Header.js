@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 function formatUserDisplay(user){
   if (!user) return 'Guest';
   const name = user.firstName;
- if (user.role === 'admin') return `${name} (admin)`;
+ if (user.role === 'admin') return `${name} (Admin)`;
   return name;
 }
 
