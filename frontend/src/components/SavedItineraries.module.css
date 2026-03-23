@@ -22,7 +22,7 @@
   margin-left: 100px;
   margin-right: 100px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  border-left: 6px solid #5ca508;
+  border-left: 6px solid #0088ff;
 }
 
 .info {
@@ -32,7 +32,7 @@
 
 .pageTitle {
   text-align: center;
-  color: #d4ffa3;
+  color: #bee0ff;
   font-size: 2.5rem;
   margin-bottom: 30px;
   font-weight: 800; 
@@ -50,7 +50,7 @@
 .ownerLine {
   margin: 0 0 12px 0;
   font-size: 0.95rem;
-  color: #2e5a0a;
+  color: #003a6d;
   padding: 8px 12px;
   background: rgba(92, 165, 8, 0.12);
   border-radius: 8px;
@@ -59,7 +59,7 @@
 
 .dateText {
   font-weight: 500;
-  color: #5ca508;
+  color: #0088ff;
   font-size: 0.95em;
 }
 
@@ -83,13 +83,13 @@
 }
 
 .dayBlock {
-  border-left: 4px solid #498406;
+  border-left: 4px solid #0088ff;
   padding-left: 14px;
 }
 
 .dayHeading {
   margin: 0 0 10px 0;
-  color: #498406;
+  color: #0088ff;
   font-size: 1.1rem;
   font-weight: 700;
 }
@@ -101,7 +101,7 @@
 .sectionLabel {
   display: block;
   margin-bottom: 4px;
-  color: #1e3602;
+  color: #003a6d;
   font-size: 0.95rem;
 }
 

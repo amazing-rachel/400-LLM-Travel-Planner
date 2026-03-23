@@ -22,7 +22,7 @@ const handleGuest = () => {
       <div className="button-group">
         <button 
           className="main-btn" 
-          style={{ backgroundColor: '#aee300', color: 'white' }}
+          style={{ backgroundColor: '#2097ff', color: 'white' }}
           onClick={() => navigate('/login')}
         >
           Login
@@ -30,7 +30,7 @@ const handleGuest = () => {
         
         <button 
           className="main-btn" 
-          style={{ backgroundColor: '#aee300', color: 'white' }}
+          style={{ backgroundColor: '#2097ff', color: 'white' }}
           onClick={() => navigate('/signup')}
         >
           Sign Up
@@ -38,7 +38,7 @@ const handleGuest = () => {
         
         <button 
           className="main-btn" 
-          style={{ backgroundColor: '#aee300', color: 'white' }}
+          style={{ backgroundColor: '#2097ff', color: 'white' }}
           onClick={handleGuest}
         >
           Continue as Guest

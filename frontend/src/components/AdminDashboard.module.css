@@ -13,13 +13,13 @@
 }
 
 .pageTitle {
-  color: #e5ffc8;
+  color: #bee0ff;
   margin: 0;
   font-size: 2.2rem;
 }
 
 .pageSubtitle {
-  color: #e5ffc8;
+  color: #bee0ff;
   margin: 0;
   font-size: 1.5rem;
 }
@@ -41,7 +41,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  border-top: 4px solid #23c100; 
+  border-top: 4px solid #2097ff; 
   text-align: center;
 }
 
@@ -126,4 +126,38 @@
 .deleteBtn:hover {
   background-color: #d82828;
   color: white;
+}
+
+/* Data Source Section */
+.dataSourceSection {
+  margin-top: 40px;
+}
+
+.dataSourceCard {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sourceName {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.sourceUrl {
+  font-size: 14px;
+  color: #666;
+  word-break: break-all;
+}
+
+.editSaveButton {
+  background-color: #2097ff;
+  color: white;
+  border-radius: 5px;
+  border-color: #2097ff; 
+  font-weight: bold;
+
 }

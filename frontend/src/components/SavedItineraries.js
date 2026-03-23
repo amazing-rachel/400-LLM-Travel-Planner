@@ -285,8 +285,8 @@ export default function SavedItineraries() {
                 </p>
               )}
               <h2>{trip.destination} <span className={styles.dateText}>({trip.date})</span></h2>
-              <p><strong>{trip.duration}</strong></p>
-              <p><strong>Budget: {trip.budget}</strong></p>
+              <p>{trip.duration}</p>
+              <p>Budget: {trip.budget}</p>
               {Array.isArray(trip.day_by_day_info) && trip.day_by_day_info.length > 0 ? (
                 <ItineraryDayBlocks dayByDayInfo={trip.day_by_day_info} />
               ) : (
