@@ -3,14 +3,14 @@ import { useAuth } from '../context/AuthContext';
 import styles from './UserProfile.module.css';
 
 const UserProfile = () => {
-  const { user, setUser } = useAuth(); 
+  const { user, setUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
-  
+ 
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    consent: false 
+    consent: false
   });
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const UserProfile = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    
+   
     try {
       const response = await fetch(`http://localhost:5000/api/consent/${user.id}`, {
         method: 'PUT',
@@ -79,54 +79,29 @@ const UserProfile = () => {
             <div className={styles.sectionHeader}>Generative AI Usage & Data Consent</div>
             <div className={styles.infoGroup}>
               <p className={formData.consent ? styles.statusEnabled : styles.statusDisabled}>
-                {formData.consent 
-                  ? "✔ You have consented to saving past travel preferences to improve future itineraries." 
+                {formData.consent
+                  ? "✔ You have consented to saving past travel preferences to improve future itineraries."
                   : "✖ You have not consented to saving past travel preferences."}
               </p>
             </div>
-            
+           
             <button className={styles.editBtn} onClick={() => setIsEditing(true)}>
-              Edit Information
+              Edit Consent Status
             </button>
           </div>
         ) : (
           /* Edit Profile */
+          
           <form onSubmit={handleSave} className={styles.editForm}>
-            <div className={styles.sectionHeader}>Edit Details</div>
-            <div className={styles.inputGroup}>
-              <label>First Name</label>
-              <input 
-                type="text" 
-                value={formData.firstName} 
-                onChange={(e) => setFormData({...formData, firstName: e.target.value})} 
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label>Last Name</label>
-              <input 
-                type="text" 
-                value={formData.lastName} 
-                onChange={(e) => setFormData({...formData, lastName: e.target.value})} 
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label>Email Address</label>
-              <input 
-                type="email" 
-                value={formData.email} 
-                onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                required 
-              />
-            </div>
-
+            
             {/* Change Consent */}
             <div className={styles.sectionHeader}>Privacy Preferences</div>
             <div className={styles.checkboxGroup}>
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 id="consent"
-                checked={formData.consent} 
-                onChange={(e) => setFormData({...formData, consent: e.target.checked})} 
+                checked={formData.consent}
+                onChange={(e) => setFormData({...formData, consent: e.target.checked})}
               />
               <label htmlFor="consent">
                 Allow the system to save my travel activity preferences to generate better itineraries in the future.

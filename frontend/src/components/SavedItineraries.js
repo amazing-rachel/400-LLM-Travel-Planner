@@ -135,10 +135,40 @@ export default function SavedItineraries() {
   };
 
   const handleRankChange = (id, newRank) => {
-    const updatedTrips = trips.map(t =>
-      t.id === id ? { ...t, rank: parseInt(newRank) } : t
-    );
-    setTrips(updatedTrips.sort((a, b) => a.rank - b.rank));
+    newRank = parseInt(newRank);
+
+    setTrips(prevTrips => {
+      // Make a shallow copy
+      const tripsCopy = [...prevTrips];
+
+      // Find the trip being moved
+      const movedTrip = tripsCopy.find(t => t.id === id);
+      if (!movedTrip) return tripsCopy;
+
+      const oldRank = movedTrip.rank;
+
+      // Adjust other trips
+      const updatedTrips = tripsCopy.map(t => {
+        if (t.id === id) return { ...t, rank: newRank };
+
+        // If trip is between old and new rank, shift it
+        if (newRank < oldRank) {
+          // Moving up → shift down trips with rank >= newRank && < oldRank
+          if (t.rank >= newRank && t.rank < oldRank) {
+            return { ...t, rank: t.rank + 1 };
+          }
+        } else if (newRank > oldRank) {
+          // Moving down → shift up trips with rank <= newRank && > oldRank
+          if (t.rank <= newRank && t.rank > oldRank) {
+            return { ...t, rank: t.rank - 1 };
+          }
+        }
+        return t;
+      });
+
+      // Sort by rank before returning
+      return updatedTrips.sort((a, b) => a.rank - b.rank);
+    });
   };
 
   const handleSaveEdit = async (e) => {
@@ -205,7 +235,15 @@ export default function SavedItineraries() {
       const data = await response.json();
 
       if (data.success) {
-        setTrips(trips.filter(t => t.id !== id));
+        // Filter out deleted trip
+        let remainingTrips = trips.filter(t => t.id !== id);
+
+        // Re-assign sequential ranks
+        remainingTrips = remainingTrips
+          .sort((a, b) => a.rank - b.rank) // optional: sort by old rank
+          .map((t, i) => ({ ...t, rank: i + 1 }));
+
+        setTrips(remainingTrips);
       } else {
         alert(data.message || 'Failed to delete itinerary.');
       }
@@ -261,9 +299,9 @@ export default function SavedItineraries() {
                 value={trip.rank}
                 onChange={(e) => handleRankChange(trip.id, e.target.value)}
               >
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <option key={n} value={n}>
-                    Rank {n}
+                {trips.map((_, i) => (
+                  <option key={i} value={i + 1}>
+                    Rank {i + 1}
                   </option>
                 ))}
               </select>
