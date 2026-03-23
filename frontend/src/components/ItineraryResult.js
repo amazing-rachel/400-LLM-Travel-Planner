@@ -68,7 +68,7 @@ const ItineraryResult = () => {
   const [showItinerary, setShowItinerary] = useState(false);
 
 
-  const [saved, setSaved] = useState(false);
+  
 
   useEffect(() => {
     if (!tripData) {
@@ -102,9 +102,7 @@ const ItineraryResult = () => {
     );
   }
 
-  const toggleSave = () => {
-      setSaved(prev => !prev);
-    };
+  
 
 
   return (
@@ -131,12 +129,7 @@ const ItineraryResult = () => {
                 {showItinerary ? "Hide Full Daily Plan" : "View Full Daily Plan"}
               </button>
 
-              <button 
-                className={saved ? styles.savedButton : styles.saveButton}
-                onClick= {toggleSave}
-              >
-                {saved ? "✓ Saved" : "Save Itinerary"}
-              </button>
+              
 
             </div>
 
