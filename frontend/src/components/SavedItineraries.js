@@ -196,8 +196,8 @@ export default function SavedItineraries() {
         endDate: editingTrip.endDate,
         budget: editingTrip.budget.replace(/\$/g, '').trim(),
         activities: editingTrip.notes
+        
       };
-
 
       const response = await fetch(`${API_BASE}/update-itinerary/${editingTrip.id}`, {
         method: "PUT",

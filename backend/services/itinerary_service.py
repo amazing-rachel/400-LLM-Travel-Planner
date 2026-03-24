@@ -492,7 +492,6 @@ def serialize_itinerary(row):
         "updated_at": row["updated_at"]
     }
 
-
 def first_non_empty(*values):
     for value in values:
         if value is not None and str(value).strip() != "":
