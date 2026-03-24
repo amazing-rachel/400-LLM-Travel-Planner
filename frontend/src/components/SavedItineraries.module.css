@@ -28,6 +28,8 @@
 .info {
   flex: 1;
   min-width: 0;
+  color: #2097ff;
+
 }
 
 .pageTitle {

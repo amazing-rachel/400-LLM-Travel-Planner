@@ -107,8 +107,8 @@ const UserConsentPage = () => {
 
                 {success && (
                     <div style={{
-                        color: '#2E7D32',
-                        backgroundColor: '#E8F5E9',
+                        color: '#2097ff',
+                        backgroundColor: '#d9eafb',
                         padding: '10px',
                         borderRadius: '4px',
                         marginTop: '15px'

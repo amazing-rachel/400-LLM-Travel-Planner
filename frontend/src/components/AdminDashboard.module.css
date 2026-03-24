@@ -22,6 +22,7 @@
   color: #bee0ff;
   margin: 0;
   font-size: 1.5rem;
+  margin-bottom: 12px;
 }
 
 /* Metrics Grid */
@@ -75,6 +76,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  color: #0264ba;
 }
 
 .userTable th, .userTable td {
