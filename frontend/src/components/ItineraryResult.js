@@ -68,8 +68,8 @@ const ItineraryResult = () => {
   const [showItinerary, setShowItinerary] = useState(false);
 
 
-  
 
+  
   useEffect(() => {
     if (!tripData) {
       setLoading(false);

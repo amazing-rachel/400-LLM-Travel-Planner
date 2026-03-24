@@ -356,6 +356,20 @@ def update_itinerary(itinerary_id, payload):
         if not isinstance(day_by_day_info, str):
             day_by_day_info = json.dumps(day_by_day_info, ensure_ascii=False)
 
+        activities = payload.get("activities", [])
+        if isinstance(activities, str):
+            activities = [a.strip() for a in activities.split(",") if a.strip()]
+
+        new_itinerary = build_itinerary(
+            destination=destination,
+            start_date=start_date,
+            end_date=end_date,
+            estimated_price=estimated_price,
+            activities=activities
+        )
+        day_by_day_info = json.dumps(new_itinerary["day_by_day_info"], ensure_ascii=False)
+
+
         cursor.execute(
             """
             UPDATE saved_itineraries
@@ -375,7 +389,7 @@ def update_itinerary(itinerary_id, payload):
         )
         conn.commit()
 
-        return success_response("Itinerary updated successfully.", 200, itinerary_id=itinerary_id)
+        return success_response("Itinerary updated successfully.", 200, itinerary=new_itinerary)
     except Exception as e:
         print("UPDATE ITINERARY ERROR:", e)
         return error_response("An error occurred while updating itinerary.", 500)

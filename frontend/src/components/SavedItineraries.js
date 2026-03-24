@@ -85,6 +85,7 @@ export default function SavedItineraries() {
                 : null;
             return {
               id: trip.itinerary_id,
+              user_id: trip.user_id,
               destination: trip.destination,
               duration: `${calculateDuration(trip.startDate, trip.endDate)} Days`,
               date: trip.startDate,
@@ -153,12 +154,12 @@ export default function SavedItineraries() {
 
         // If trip is between old and new rank, shift it
         if (newRank < oldRank) {
-          // Moving up → shift down trips with rank >= newRank && < oldRank
+          // Moving up means shift down trips with rank >= newRank && < oldRank
           if (t.rank >= newRank && t.rank < oldRank) {
             return { ...t, rank: t.rank + 1 };
           }
         } else if (newRank > oldRank) {
-          // Moving down → shift up trips with rank <= newRank && > oldRank
+          // Moving down means shift up trips with rank <= newRank && > oldRank
           if (t.rank <= newRank && t.rank > oldRank) {
             return { ...t, rank: t.rank - 1 };
           }
@@ -171,60 +172,83 @@ export default function SavedItineraries() {
     });
   };
 
-  const handleSaveEdit = async (e) => {
+
+  const handleRegenerate = async (e) => {
     e.preventDefault();
 
-    const dayPayload =
-      editingTrip.day_by_day_info ||
-      (editingTrip.activities
-        ? [
-            {
-              day: 1,
-              date: editingTrip.date,
-              title: '',
-              activities: [
-                { time: '', activity: String(editingTrip.activities) },
-              ],
-            },
-          ]
-        : []);
+    const tripId = editingTrip.id;
 
     try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const userId = user?.id;
+
+
+      if (!userId) {
+        alert("User not found. Please log in.");
+        return;
+      }
+
+
+      const payload = {
+        user_id: userId,
+        destination: editingTrip.destination,
+        startDate: editingTrip.date,
+        endDate: editingTrip.endDate,
+        budget: editingTrip.budget.replace(/\$/g, '').trim(),
+        activities: editingTrip.notes
+      };
+
+
       const response = await fetch(`${API_BASE}/update-itinerary/${editingTrip.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          destination: editingTrip.destination,
-          startDate: editingTrip.date,
-          endDate: editingTrip.endDate,
-          budget: editingTrip.budget.replace(/\$/g, '').trim(),
-          day_by_day_info: dayPayload,
-        })
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
+
 
       const data = await response.json();
 
-      if (data.success) {
-        const updatedTrips = trips.map((t) => {
-          if (t.id !== editingTrip.id) return t;
-          const b = editingTrip.budget.replace(/\$/g, '').trim();
-          return {
-            ...editingTrip,
-            budget: `$${b}`,
-            day_by_day_info: dayPayload,
-            activities: formatActivities(dayPayload),
-          };
-        });
-        setTrips(updatedTrips);
-        setEditingTrip(null);
-      } else {
-        alert(data.message || 'Failed to save changes.');
+
+      // check status 
+      if (!response.ok) {
+        alert(data.message || "Failed to regenerate itinerary.");
+        return;
       }
+
+
+      const newDayInfo = data.itinerary.day_by_day_info;
+
+
+      // Update the trip in state
+      setTrips(prev =>
+        prev.map(t =>
+          t.id === tripId
+            ? {
+                ...t,
+                destination: payload.destination,
+                date: payload.startDate,
+                endDate: payload.endDate,
+                budget: `$${payload.budget}`,
+                day_by_day_info: newDayInfo,
+                activities: formatActivities(newDayInfo),
+                duration: `${calculateDuration(payload.startDate, payload.endDate)} Days`
+              }
+            : t
+        )
+      );
+
+
+      setEditingTrip(null);
+
+
     } catch (err) {
-      console.error('Update itinerary error:', err);
-      alert('Failed to save changes.');
+      console.error("Regenerate error:", err);
+      alert("Failed to regenerate. Try again.");
     }
   };
+
+
+
 
   const handleUnsave = async (id) => {
     try {
@@ -240,7 +264,7 @@ export default function SavedItineraries() {
 
         // Re-assign sequential ranks
         remainingTrips = remainingTrips
-          .sort((a, b) => a.rank - b.rank) // optional: sort by old rank
+          .sort((a, b) => a.rank - b.rank) // sort by old rank
           .map((t, i) => ({ ...t, rank: i + 1 }));
 
         setTrips(remainingTrips);
@@ -306,7 +330,7 @@ export default function SavedItineraries() {
                 ))}
               </select>
               <button onClick={() => handleShare(trip)}>Share</button>
-              <button onClick={() => setEditingTrip(trip)}>Edit Details</button>
+              <button onClick={() => setEditingTrip(trip)}>Regenerate</button>
               <button className={styles.unsaveBtn} onClick={() => handleUnsave(trip.id)}>Unsave</button>
             </div>
           </div>
@@ -317,7 +341,7 @@ export default function SavedItineraries() {
         <div className={styles.overlay}>
           <div className={styles.editCard}>
             <h2>Edit {editingTrip.destination} Itinerary</h2>
-            <form onSubmit={handleSaveEdit} className={styles.editForm}>
+            <form onSubmit={handleRegenerate} className={styles.editForm}>
               <div className={styles.inputGroup}>
                 <label>Destination</label>
                 <input
@@ -328,7 +352,7 @@ export default function SavedItineraries() {
 
               <div className={styles.inputRow}>
                 <div className={styles.inputGroup}>
-                  <label>Date</label>
+                  <label>Start Date</label>
                   <input
                     type="date"
                     value={editingTrip.date}
@@ -336,20 +360,13 @@ export default function SavedItineraries() {
                   />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Duration</label>
+                  <label>End Date</label>
                   <input
-                    value={editingTrip.duration}
-                    onChange={e => setEditingTrip({ ...editingTrip, duration: e.target.value })}
+                    type="date"
+                    value={editingTrip.endDate}
+                    onChange={e => setEditingTrip({ ...editingTrip, endDate: e.target.value })}
                   />
                 </div>
-              </div>
-
-              <div className={styles.inputGroup}>
-                <label>Activities</label>
-                <textarea
-                  value={editingTrip.activities}
-                  onChange={e => setEditingTrip({ ...editingTrip, activities: e.target.value })}
-                />
               </div>
 
               <div className={styles.inputGroup}>
@@ -358,18 +375,18 @@ export default function SavedItineraries() {
                   value={editingTrip.budget}
                   onChange={e => setEditingTrip({ ...editingTrip, budget: e.target.value })}
                 />
-              </div>
-
+              </div> 
+               
               <div className={styles.inputGroup}>
-                <label>Additional Notes</label>
+                <label>Activities</label>
                 <textarea
                   value={editingTrip.notes}
                   onChange={e => setEditingTrip({ ...editingTrip, notes: e.target.value })}
                 />
               </div>
-
+              
               <div className={styles.modalBtns}>
-                <button type="submit" className={styles.saveBtn}>Save Changes</button>
+                <button type="submit" className={styles.saveBtn}>Regenerate</button>
                 <button type="button" onClick={() => setEditingTrip(null)}>Cancel</button>
               </div>
             </form>
