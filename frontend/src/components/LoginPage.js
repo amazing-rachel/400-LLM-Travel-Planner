@@ -29,10 +29,8 @@ const LoginForm = () => {
       if (data.success) {
         login(data.user);
         setSuccess(data.message);
-        // Redirect after 2 seconds
-        setTimeout(() => {
-          navigate('/user-consent');
-        }, 2000);
+        // Redirect after 1 second
+        setTimeout(() => navigate('/trip-input'), 1000);
       } else {
         setError(data.message);  
       }

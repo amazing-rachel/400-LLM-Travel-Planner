@@ -1,7 +1,20 @@
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 24px;
   background: white;
   padding: 40px;
   border-radius: 12px;
@@ -9,23 +22,105 @@
   margin-left: 100px;
   margin-right: 100px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  border-left: 6px solid #5ca508;
+  border-left: 6px solid #0088ff;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  color: #2097ff;
+
 }
 
 .pageTitle {
   text-align: center;
-  color: #d4ffa3;
+  color: #bee0ff;
   font-size: 2.5rem;
   margin-bottom: 30px;
   font-weight: 800; 
 }
 
+.pageSubtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  margin: -20px auto 28px;
+  max-width: 640px;
+  line-height: 1.4;
+}
+
+.ownerLine {
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  color: #003a6d;
+  padding: 8px 12px;
+  background: rgba(92, 165, 8, 0.12);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.dateText {
+  font-weight: 500;
+  color: #0088ff;
+  font-size: 0.95em;
+}
+
 /* Buttons on Itinerary Card */
 .actions {
   display: flex;
+  flex-direction: column;
   gap: 15px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  align-items: stretch;
+  min-width: 160px;
+}
+
+.itineraryDays {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dayBlock {
+  border-left: 4px solid #0088ff;
+  padding-left: 14px;
+}
+
+.dayHeading {
+  margin: 0 0 10px 0;
+  color: #0088ff;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.sectionRow {
+  margin-bottom: 10px;
+}
+
+.sectionLabel {
+  display: block;
+  margin-bottom: 4px;
+  color: #003a6d;
+  font-size: 0.95rem;
+}
+
+.sectionBody {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.fallbackParagraph {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  color: #333;
 }
 
 .actions button, .actions select {
@@ -54,6 +149,7 @@
 /* Itinerary Details Styling */
 .editCard {
   background: white;
+  color: #0088ff;
   padding: 30px;
   border-radius: 15px;
   width: 1000px;

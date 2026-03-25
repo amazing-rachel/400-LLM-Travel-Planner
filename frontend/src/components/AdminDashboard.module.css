@@ -1,0 +1,165 @@
+.dashboardContainer {
+  padding: 40px 20px;
+  max-width: 1200px; 
+  margin: 0 auto;
+  font-family: inherit;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.pageTitle {
+  color: #bee0ff;
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.pageSubtitle {
+  color: #bee0ff;
+  margin: 0;
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+
+/* Metrics Grid */
+.metricsSection {
+  margin-bottom: 40px;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.metricCard {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border-top: 4px solid #2097ff; 
+  text-align: center;
+}
+
+.metricCard h3 {
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.metricValue {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Table Styling */
+.usersSection h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.tableContainer {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  color: #0264ba;
+}
+
+.userTable th, .userTable td {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.userTable th {
+  background-color: #f8f9fa;
+  color: #555;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.userTable tr:hover {
+  background-color: #fcfcfc;
+}
+
+/* Buttons */
+.statusBadge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.active {
+  background-color: #e6f8e6;
+  color: #23c100;
+}
+
+.suspended {
+  background-color: #ffe6e6;
+  color: #d82828;
+}
+
+.deleteBtn {
+  background-color: transparent;
+  color: #d82828;
+  border: 1px solid #d82828;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.deleteBtn:hover {
+  background-color: #d82828;
+  color: white;
+}
+
+/* Data Source Section */
+.dataSourceSection {
+  margin-top: 40px;
+}
+
+.dataSourceCard {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sourceName {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.sourceUrl {
+  font-size: 14px;
+  color: #666;
+  word-break: break-all;
+}
+
+.editSaveButton {
+  background-color: #2097ff;
+  color: white;
+  border-radius: 5px;
+  border-color: #2097ff; 
+  font-weight: bold;
+
+}

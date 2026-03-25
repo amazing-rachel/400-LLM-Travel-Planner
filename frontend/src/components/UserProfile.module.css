@@ -1,0 +1,136 @@
+.pageContainer {
+  padding: 40px 20px;
+  max-width: 600px; 
+  margin: 0 auto;
+}
+
+.pageTitle {
+  text-align: left;
+  color: #bee0ff;
+  margin-bottom: 20px;
+}
+
+.profileCard {
+  background: white;
+  padding: 60px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border-left: 8px solid #2097ff;
+}
+
+/* View Profile */
+.viewMode {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.infoGroup {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.infoGroup label {
+  color: #666;
+  font-size: 1rem;
+}
+
+.infoGroup p {
+  margin: 5px 0 0 0;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: normal;
+}
+
+/* Form Styles */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup label {
+  color: #333;
+}
+
+.inputGroup input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+/* Buttons/Edit Profile */
+.actionBtns {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.cancelBtn {
+  background-color: white;
+  color: #666;
+  border: 1px solid #ccc;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.saveBtn, .editBtn {
+  background-color: #2097ff;
+  color: white;
+  border: 1px solid #ccc;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.saveBtn, .editBtn:hover {
+    background-color:#0088ff;
+}
+
+.sectionHeader {
+  color: #1a3a5f;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 20px 0 10px 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* Consent Section */
+.statusEnabled { 
+    color: #23c100; 
+    font-weight: 600; 
+}
+
+.statusDisabled { 
+    color: #d82828; 
+    font-weight: 600; 
+}
+
+.checkboxGroup {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  color: #333;
+}
+
+.checkboxGroup input { 
+    width: 18px; 
+    height: 18px; 
+    cursor: pointer; 
+}

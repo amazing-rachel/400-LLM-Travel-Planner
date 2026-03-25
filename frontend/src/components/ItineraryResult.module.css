@@ -1,0 +1,160 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
+
+.resultsHeader {
+  text-align: left;
+  margin-bottom: 40px;
+  color:#bee0ff;
+}
+
+/* Itinerary Results */
+.optionsGrid {
+  display: grid;
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.optionCard {
+  background: white;
+  border-radius: 15px;
+  display: flex;
+  width: 600px;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid #eee;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  padding: 30px 30px;
+}
+
+.optionCard:hover {
+  border-color: #00396b;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.savedCard {
+  border-color: #006dcb;
+}
+
+.cardContent {
+  padding: 35px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-right: 30px;
+  color: #0883ef;
+  font-size: 1.5rem;
+}
+
+.price {
+  font-weight: bold;
+  color: #0883ef;
+  background: #e0f0ff;
+  padding: 15px 15px; 
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: 25px;
+}
+
+.cardActions {
+  padding: 20px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.viewDetailsButton {
+  background: none;
+  border: 1px solid #002648;
+  color: #002648;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Save & Saved Buttons */
+.saveButton {
+  background: #2097ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.savedButton {
+  background: #024c8c;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.footerNav {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+}
+
+/* Go to Saved or Back to Trip Input */
+.goButton {
+  background: #2097ff;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.goButton:hover {
+    background: #00396b;
+    color:#ffffff;
+}
+
+.dayContent {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dayCard {
+  border-left: 4px solid #00396b;
+  padding-left: 16px;
+}
+
+.dayCard h4 {
+  margin: 0 0 12px 0;
+  color: #00396b;
+  font-size: 1.15rem;
+}
+
+.activity {
+  margin-bottom: 12px;
+}
+
+.sectionLabel {
+  display: block;
+  margin-bottom: 6px;
+  color: #002648;
+}
+
+.activityBody {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  color: #333;
+}

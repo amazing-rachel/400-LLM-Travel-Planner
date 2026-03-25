@@ -1,7 +1,18 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
+
+const handleGuest = () => {
+    // Clear user from context
+    setUser(null);
+    // Clear user from localStorage
+    localStorage.removeItem('user');
+    // Navigate to trip input as guest
+    navigate('/trip-input');
+  };
 
   return (
     <div className="landing-page">
@@ -11,7 +22,7 @@ const LandingPage = () => {
       <div className="button-group">
         <button 
           className="main-btn" 
-          style={{ backgroundColor: '#aee300', color: 'white' }}
+          style={{ backgroundColor: '#2097ff', color: 'white' }}
           onClick={() => navigate('/login')}
         >
           Login
@@ -19,7 +30,7 @@ const LandingPage = () => {
         
         <button 
           className="main-btn" 
-          style={{ backgroundColor: '#aee300', color: 'white' }}
+          style={{ backgroundColor: '#2097ff', color: 'white' }}
           onClick={() => navigate('/signup')}
         >
           Sign Up
@@ -27,8 +38,8 @@ const LandingPage = () => {
         
         <button 
           className="main-btn" 
-          style={{ backgroundColor: '#aee300', color: 'white' }}
-          onClick={() => navigate('/trip-input')}
+          style={{ backgroundColor: '#2097ff', color: 'white' }}
+          onClick={handleGuest}
         >
           Continue as Guest
         </button>
